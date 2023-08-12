@@ -60,7 +60,7 @@ module.exports = (app, db) => {
         }
 
         let resPut = await CyclesModel.updateCycleById(
-          req.body.new_date,
+          req.body.date,
           req.params.cycle_id
         );
 

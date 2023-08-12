@@ -23,7 +23,7 @@ Content-Type: application/json
 x-access-token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjI0LCJpYXQiOjE2ODU0NDQzODV9.1pT77AYtCmGPXQKCm6ha9gvAppedc-vncNPZ8UVM7sw
 
 {
-  "new_date":"2023-05-30 09:00:00"
+  "date":"2023-05-30 09:00:00"
 }
 
 
