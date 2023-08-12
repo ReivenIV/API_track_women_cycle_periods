@@ -37,7 +37,7 @@ class CyclesModel {
     return resPut[0];
   }
 
-    static async deleteCycleById(cycleId) {
+  static async deleteCycleById(cycleId) {
     const query =
       "DELETE FROM `track_cycle_periods_db`.`cycles` WHERE `cycle_id` =?;";
 

@@ -51,12 +51,10 @@ module.exports = (app, db) => {
         );
 
         if (resOldData.length === 0) {
-          return res
-            .status(400)
-            .json({
-              msg: "Data not founded in the Database check your payload and try again.",
-              received_cycle_id: req.params.cycle_id,
-            });
+          return res.status(400).json({
+            msg: "Data not founded in the Database check your payload and try again.",
+            received_cycle_id: req.params.cycle_id,
+          });
         }
 
         let resPut = await CyclesModel.updateCycleById(
@@ -81,7 +79,7 @@ module.exports = (app, db) => {
     }
   );
 
-    app.delete(
+  app.delete(
     "/api/v1/cycle/delete/:cycle_id",
     errorHandler,
     async (req, res, next) => {
@@ -91,12 +89,10 @@ module.exports = (app, db) => {
         );
 
         if (resOldData.length === 0) {
-          return res
-            .status(400)
-            .json({
-              msg: "Data not founded in the Database check your payload and try again.",
-              received_cycle_id: parseInt(req.params.cycle_id),
-            });
+          return res.status(400).json({
+            msg: "Data not founded in the Database check your payload and try again.",
+            received_cycle_id: parseInt(req.params.cycle_id),
+          });
         }
 
         let resDelete = await CyclesModel.deleteCycleById(
@@ -106,7 +102,10 @@ module.exports = (app, db) => {
         if (resDelete.affectedRows === 0) {
           return res
             .status(400)
-            .json({ msg: "We had a problem please try again", received_cycle_id: parseInt(req.params.cycle_id) });
+            .json({
+              msg: "We had a problem please try again",
+              received_cycle_id: parseInt(req.params.cycle_id),
+            });
         }
 
         return res.status(200).json({
