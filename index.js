@@ -19,12 +19,11 @@ app.use(express.json());
 app.use(express.static(__dirname + '/public'));
 
 const PORT = process.env.PORT;
-console.log(PORT);
 
 // Import endpoints
 
-// const userEndpoints = require('./endpoints/user/userEndpoints');
-// const trackTimeEndpoints = require('./endpoints/track_time/trackTimeEndpoints');
+ const cyclesEndpoints = require('./endpoints/cyclesEndpoints.js');
+// const trackTimeEndpoints = require('./endpoints/trackTimeEndpoints');
 
 (async () => {
   try {
@@ -39,7 +38,7 @@ console.log(PORT);
       await db.query('SELECT 1');
     }, 100000);
 
-// userEndpoints(app, db);
+   cyclesEndpoints(app, db);
 // trackTimeEndpoints(app, db);
 
     app.listen(PORT, () => {
