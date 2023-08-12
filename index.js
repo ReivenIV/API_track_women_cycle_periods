@@ -1,28 +1,28 @@
-const express = require('express');
-const { createPool } = require('mysql2/promise');
-require('dotenv').config();
-const fileUpload = require('express-fileupload');
+const express = require("express");
+const { createPool } = require("mysql2/promise");
+require("dotenv").config();
+const fileUpload = require("express-fileupload");
 
 const app = express();
-const cors = require('cors');
+const cors = require("cors");
 app.use(cors());
 
 app.use(
   fileUpload({
     createParentPath: true,
-  }),
+  })
 );
 
 // Parse les Url
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname + "/public"));
 
 const PORT = process.env.PORT;
 
 // Import endpoints
 
- const cyclesEndpoints = require('./endpoints/cyclesEndpoints.js');
+const cyclesEndpoints = require("./endpoints/cyclesEndpoints.js");
 // const trackTimeEndpoints = require('./endpoints/trackTimeEndpoints');
 
 (async () => {
@@ -35,16 +35,16 @@ const PORT = process.env.PORT;
     });
 
     setInterval(async () => {
-      await db.query('SELECT 1');
+      await db.query("SELECT 1");
     }, 100000);
 
-   cyclesEndpoints(app, db);
-// trackTimeEndpoints(app, db);
+    cyclesEndpoints(app, db);
+    // trackTimeEndpoints(app, db);
 
     app.listen(PORT, () => {
       console.log(`Listening on PORT: ${PORT}`);
     });
   } catch (error) {
-    console.error('Error creating database pool:', error);
+    console.error("Error creating database pool:", error);
   }
 })();
