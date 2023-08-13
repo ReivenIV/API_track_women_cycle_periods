@@ -8,8 +8,6 @@ module.exports = (_db) => {
 };
 
 class ReferencesModel {
-
-
   static async getAllActivitiesReferences() {
     const query = "SELECT * FROM track_cycle_periods_db.activities_reference;";
 
@@ -22,5 +20,4 @@ class ReferencesModel {
     const response = await db.query(query, []);
     return response;
   }
-
 }
