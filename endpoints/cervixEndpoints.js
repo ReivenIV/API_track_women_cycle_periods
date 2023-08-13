@@ -45,7 +45,9 @@ module.exports = (app, db) => {
     errorHandler,
     async (req, res, next) => {
       try {
-        let resOldData = await CervixModel.getById(parseInt(req.params.cervix_id));
+        let resOldData = await CervixModel.getById(
+          parseInt(req.params.cervix_id)
+        );
 
         if (resOldData.length === 0) {
           return res.status(400).json({
@@ -81,7 +83,9 @@ module.exports = (app, db) => {
     errorHandler,
     async (req, res, next) => {
       try {
-        let resOldData = await CervixModel.getById(parseInt(req.params.cervix_id));
+        let resOldData = await CervixModel.getById(
+          parseInt(req.params.cervix_id)
+        );
 
         if (resOldData.length === 0) {
           return res.status(400).json({

@@ -23,7 +23,8 @@ class EmotionsModel {
   }
 
   static async getById(commentId) {
-    const query = "SELECT * FROM track_cycle_periods_db.emotions_data WHERE id=?;";
+    const query =
+      "SELECT * FROM track_cycle_periods_db.emotions_data WHERE id=?;";
 
     const resGet = await db.query(query, [commentId]);
     return resGet[0];
@@ -33,12 +34,17 @@ class EmotionsModel {
     const query =
       "UPDATE track_cycle_periods_db.emotions_data SET cycle_id=?, emotion_id=? WHERE id=?;";
 
-    const resPut = await db.query(query, [data.cycle_id, data.emotion_id, commentId]);
+    const resPut = await db.query(query, [
+      data.cycle_id,
+      data.emotion_id,
+      commentId,
+    ]);
     return resPut[0];
   }
 
   static async deleteById(commentId) {
-    const query = "DELETE FROM track_cycle_periods_db.emotions_data WHERE id=?;";
+    const query =
+      "DELETE FROM track_cycle_periods_db.emotions_data WHERE id=?;";
 
     const resDelete = await db.query(query, [commentId]);
     return resDelete[0];

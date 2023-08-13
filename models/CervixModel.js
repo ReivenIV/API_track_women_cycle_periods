@@ -11,7 +11,11 @@ class CervixModel {
   static async add(data) {
     const query =
       "INSERT INTO track_cycle_periods_db.cervix_data (cycle_id, created_at, cervix_position, mucus_type ) VALUES (?,CURRENT_TIMESTAMP, ?, ?);";
-    const response = await db.query(query, [data.cycle_id, data.cervix_position, data.mucus_type]);
+    const response = await db.query(query, [
+      data.cycle_id,
+      data.cervix_position,
+      data.mucus_type,
+    ]);
     return response[0];
   }
 
@@ -23,7 +27,8 @@ class CervixModel {
   }
 
   static async getById(commentId) {
-    const query = "SELECT * FROM track_cycle_periods_db.cervix_data WHERE id=?;";
+    const query =
+      "SELECT * FROM track_cycle_periods_db.cervix_data WHERE id=?;";
 
     const resGet = await db.query(query, [commentId]);
     return resGet[0];
@@ -33,7 +38,12 @@ class CervixModel {
     const query =
       "UPDATE track_cycle_periods_db.cervix_data SET cycle_id=?, cervix_position=?, mucus_type=? WHERE id=?;";
 
-    const resPut = await db.query(query, [data.cycle_id, data.cervix_position, data.mucus_type,  commentId]);
+    const resPut = await db.query(query, [
+      data.cycle_id,
+      data.cervix_position,
+      data.mucus_type,
+      commentId,
+    ]);
     return resPut[0];
   }
 

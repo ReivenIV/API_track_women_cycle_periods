@@ -45,7 +45,9 @@ module.exports = (app, db) => {
     errorHandler,
     async (req, res, next) => {
       try {
-        let resOldData = await EmotionsModel.getById(parseInt(req.params.emotions_id));
+        let resOldData = await EmotionsModel.getById(
+          parseInt(req.params.emotions_id)
+        );
 
         if (resOldData.length === 0) {
           return res.status(400).json({
@@ -81,7 +83,9 @@ module.exports = (app, db) => {
     errorHandler,
     async (req, res, next) => {
       try {
-        let resOldData = await EmotionsModel.getById(parseInt(req.params.emotions_id));
+        let resOldData = await EmotionsModel.getById(
+          parseInt(req.params.emotions_id)
+        );
 
         if (resOldData.length === 0) {
           return res.status(400).json({

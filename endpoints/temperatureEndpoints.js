@@ -88,7 +88,7 @@ module.exports = (app, db) => {
     async (req, res, next) => {
       try {
         let resOldData = await TemperatureModel.getById(
-          parseInt(req.params.temperature_id),
+          parseInt(req.params.temperature_id)
         );
 
         if (resOldData.length === 0) {
