@@ -1,15 +1,16 @@
 const errorHandler = require("../middlewares/errorHandler.js");
 
 // ---------------------------
-//    cycle Endpoints
+//    Temperature Endpoints
 // ---------------------------
 
 module.exports = (app, db) => {
-  const CyclesModel = require("./../models/CyclesModel")(db);
+  const TemperatureModel = require("./../models/TemperatureModel.js")(db);
 
-  app.post("/api/v1/cycle/add", errorHandler, async (req, res, next) => {
+  app.post("/api/v1/temperature/add", errorHandler, async (req, res, next) => {
     try {
-      let resPost = await CyclesModel.add();
+        console.log(req.body);
+      let resPost = await TemperatureModel.addTemperature(req.body);
 
       if (resPost.affectedRows === 0) {
         res.status(400).json({
@@ -27,9 +28,9 @@ module.exports = (app, db) => {
     }
   });
 
-  app.get("/api/v1/cycle/all_data", errorHandler, async (req, res, next) => {
+  app.get("/api/v1/temperature/all_data", errorHandler, async (req, res, next) => {
     try {
-      let responseGet = await CyclesModel.getAllData();
+      let responseGet = await TemperatureModel.getAllData();
 
       if (responseGet[0].length === 0) {
         return res.status(200).json({ msg: "User doesn't have data" });
@@ -41,24 +42,24 @@ module.exports = (app, db) => {
   });
 
   app.put(
-    "/api/v1/cycle/update/:cycle_id",
+    "/api/v1/temperature/update/:temperature_id",
     errorHandler,
     async (req, res, next) => {
       try {
-        let resOldData = await CyclesModel.getDataByCycleId(
-          req.params.cycle_id
+        let resOldData = await TemperatureModel.getById(
+          req.params.temperature_id
         );
 
         if (resOldData.length === 0) {
           return res.status(400).json({
             msg: "Data not founded in the Database check your payload and try again.",
-            received_cycle_id: req.params.cycle_id,
+            received_temperature_id: req.params.temperature_id,
           });
         }
 
-        let resPut = await CyclesModel.updateCycleById(
-          req.body.date,
-          req.params.cycle_id
+        let resPut = await TemperatureModel.updateById(
+          req.body,
+          req.params.temperature_id
         );
 
         if (resPut.affectedRows === 0) {
@@ -68,7 +69,7 @@ module.exports = (app, db) => {
         }
 
         return res.status(200).json({
-          id: req.params.cycle_id,
+          id: req.params.temperature_id,
           msg: "row aupdated",
           affected_rows: resPut.affectedRows,
         });
@@ -79,23 +80,23 @@ module.exports = (app, db) => {
   );
 
   app.delete(
-    "/api/v1/cycle/delete/:cycle_id",
+    "/api/v1/temperature/delete/:temperature_id",
     errorHandler,
     async (req, res, next) => {
       try {
-        let resOldData = await CyclesModel.getDataByCycleId(
-          req.params.cycle_id
+        let resOldData = await TemperatureModel.getById(
+          req.params.temperature_id
         );
 
         if (resOldData.length === 0) {
           return res.status(400).json({
             msg: "Data not founded in the Database check your payload and try again.",
-            received_cycle_id: parseInt(req.params.cycle_id),
+            received_temperature_id: parseInt(req.params.temperature_id),
           });
         }
 
-        let resDelete = await CyclesModel.deleteCycleById(
-          parseInt(req.params.cycle_id)
+        let resDelete = await TemperatureModel.deleteById(
+          parseInt(req.params.temperature_id)
         );
 
         if (resDelete.affectedRows === 0) {
@@ -103,12 +104,12 @@ module.exports = (app, db) => {
             .status(400)
             .json({
               msg: "We had a problem please try again",
-              received_cycle_id: parseInt(req.params.cycle_id),
+              received_temperature_id: parseInt(req.params.temperature_id),
             });
         }
 
         return res.status(200).json({
-          id: parseInt(req.params.cycle_id),
+          id: parseInt(req.params.temperature_id),
           msg: "row deleted",
           affected_rows: resDelete.affectedRows,
         });

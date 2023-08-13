@@ -1,0 +1,26 @@
+###
+POST http://localhost:8080/api/v1/temperature/add
+Content-Type: application/json
+
+{
+"cycle_id":45,
+"celsius_degrees": 36.5
+}
+
+###
+GET http://localhost:8080/api/v1/temperature/all_data
+Content-Type: application/json
+
+
+###
+PUT http://localhost:8080/api/v1/temperature/update/2
+Content-Type: application/json
+
+{
+  "cycle_id":"123",
+  "celsius_degrees":"111111111"
+}
+
+###
+DELETE http://localhost:8080/api/v1/temperature/delete/2
+Content-Type: application/json

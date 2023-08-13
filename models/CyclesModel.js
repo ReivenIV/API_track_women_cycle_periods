@@ -1,5 +1,5 @@
 // ------------------------
-//    Track Time Model
+//    Cycles Model
 // ------------------------
 
 module.exports = (_db) => {
