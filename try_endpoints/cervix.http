@@ -1,0 +1,28 @@
+###
+POST http://localhost:8080/api/v1/cervix/add
+Content-Type: application/json
+
+{
+"cycle_id":45,
+"cervix_position": "medium",
+"mucus_type": "pasty"
+}
+
+###
+GET http://localhost:8080/api/v1/cervix/all_data
+Content-Type: application/json
+
+
+###
+PUT http://localhost:8080/api/v1/cervix/update/1
+Content-Type: application/json
+
+{
+  "cycle_id":446848646,
+  "cervix_position":"test PUT",
+  "mucus_type":"test PUT"
+}
+
+###
+DELETE http://localhost:8080/api/v1/cervix/delete/3
+Content-Type: application/json
