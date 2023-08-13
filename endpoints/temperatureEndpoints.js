@@ -9,7 +9,6 @@ module.exports = (app, db) => {
 
   app.post("/api/v1/temperature/add", errorHandler, async (req, res, next) => {
     try {
-        console.log(req.body);
       let resPost = await TemperatureModel.addTemperature(req.body);
 
       if (resPost.affectedRows === 0) {
@@ -28,18 +27,22 @@ module.exports = (app, db) => {
     }
   });
 
-  app.get("/api/v1/temperature/all_data", errorHandler, async (req, res, next) => {
-    try {
-      let responseGet = await TemperatureModel.getAllData();
+  app.get(
+    "/api/v1/temperature/all_data",
+    errorHandler,
+    async (req, res, next) => {
+      try {
+        let responseGet = await TemperatureModel.getAllData();
 
-      if (responseGet[0].length === 0) {
-        return res.status(200).json({ msg: "User doesn't have data" });
+        if (responseGet[0].length === 0) {
+          return res.status(200).json({ msg: "User doesn't have data" });
+        }
+        return res.status(200).json(responseGet[0]);
+      } catch (error) {
+        next(error);
       }
-      return res.status(200).json(responseGet[0]);
-    } catch (error) {
-      next(error);
     }
-  });
+  );
 
   app.put(
     "/api/v1/temperature/update/:temperature_id",
@@ -85,7 +88,7 @@ module.exports = (app, db) => {
     async (req, res, next) => {
       try {
         let resOldData = await TemperatureModel.getById(
-          req.params.temperature_id
+          parseInt(req.params.temperature_id),
         );
 
         if (resOldData.length === 0) {
@@ -100,12 +103,10 @@ module.exports = (app, db) => {
         );
 
         if (resDelete.affectedRows === 0) {
-          return res
-            .status(400)
-            .json({
-              msg: "We had a problem please try again",
-              received_temperature_id: parseInt(req.params.temperature_id),
-            });
+          return res.status(400).json({
+            msg: "We had a problem please try again",
+            received_temperature_id: parseInt(req.params.temperature_id),
+          });
         }
 
         return res.status(200).json({

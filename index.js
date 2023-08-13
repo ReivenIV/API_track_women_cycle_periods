@@ -24,6 +24,7 @@ const PORT = process.env.PORT;
 
 const cyclesEndpoints = require("./endpoints/cyclesEndpoints.js");
 const temperatureEndpoints = require("./endpoints/temperatureEndpoints.js");
+const notesEndpoints = require("./endpoints/notesEndpoints.js");
 
 (async () => {
   try {
@@ -40,7 +41,7 @@ const temperatureEndpoints = require("./endpoints/temperatureEndpoints.js");
 
     cyclesEndpoints(app, db);
     temperatureEndpoints(app, db);
-
+    notesEndpoints(app, db);
 
     app.listen(PORT, () => {
       console.log(`Listening on PORT: ${PORT}`);

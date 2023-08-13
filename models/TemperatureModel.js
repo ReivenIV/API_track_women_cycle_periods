@@ -9,8 +9,12 @@ module.exports = (_db) => {
 
 class TermperatureModel {
   static async add(data) {
-    const query = "INSERT INTO track_cycle_periods_db.temperature (cycle_id, celsius_degrees, created_at) VALUES (?,?, CURRENT_TIMESTAMP)";
-    const response = await db.query(query, [data.cycle_id, data.celsius_degrees]);
+    const query =
+      "INSERT INTO track_cycle_periods_db.temperature (cycle_id, celsius_degrees, created_at) VALUES (?,?, CURRENT_TIMESTAMP)";
+    const response = await db.query(query, [
+      data.cycle_id,
+      data.celsius_degrees,
+    ]);
     return response[0];
   }
 
@@ -33,13 +37,16 @@ class TermperatureModel {
     const query =
       "UPDATE track_cycle_periods_db.temperature SET cycle_id=?, celsius_degrees=? WHERE id=?;";
 
-    const resPut = await db.query(query, [data.cycle_id, data.celsius_degrees, temperatureId]);
+    const resPut = await db.query(query, [
+      data.cycle_id,
+      data.celsius_degrees,
+      temperatureId,
+    ]);
     return resPut[0];
   }
 
   static async deleteById(temperatureId) {
-    const query =
-      "DELETE FROM track_cycle_periods_db.temperature WHERE id=?;";
+    const query = "DELETE FROM track_cycle_periods_db.temperature WHERE id=?;";
 
     const resDelete = await db.query(query, [temperatureId]);
     return resDelete[0];
