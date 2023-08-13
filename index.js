@@ -26,6 +26,7 @@ const cyclesEndpoints = require("./endpoints/cyclesEndpoints.js");
 const temperatureEndpoints = require("./endpoints/temperatureEndpoints.js");
 const notesEndpoints = require("./endpoints/notesEndpoints.js");
 const cervixEndpoints = require("./endpoints/cervixEndpoints.js");
+const emotionsEndpoints = require("./endpoints/emotionsEndpoints.js");
 
 (async () => {
   try {
@@ -44,6 +45,7 @@ const cervixEndpoints = require("./endpoints/cervixEndpoints.js");
     temperatureEndpoints(app, db);
     notesEndpoints(app, db);
     cervixEndpoints(app, db);
+    emotionsEndpoints(app, db);
 
     app.listen(PORT, () => {
       console.log(`Listening on PORT: ${PORT}`);
