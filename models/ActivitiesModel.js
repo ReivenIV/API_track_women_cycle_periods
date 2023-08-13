@@ -1,6 +1,6 @@
-// -----------------
-//    Notes Model
-// -----------------
+// ---------------------
+//    Activities Model
+// ---------------------
 
 module.exports = (_db) => {
   db = _db;
@@ -31,6 +31,14 @@ class ActivitiesModel {
       "SELECT * FROM track_cycle_periods_db.activities_data WHERE id=?;";
 
     const resGet = await db.query(query, [commentId]);
+    return resGet[0];
+  }
+
+  static async getByCycleId(cycleId) {
+    const query =
+      "SELECT * FROM track_cycle_periods_db.activities_data WHERE cycle_id=?;";
+
+    const resGet = await db.query(query, [cycleId]);
     return resGet[0];
   }
 

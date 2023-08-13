@@ -34,6 +34,14 @@ class CervixModel {
     return resGet[0];
   }
 
+  static async getByCycleId(cycleId) {
+    const query =
+      "SELECT * FROM track_cycle_periods_db.cervix_data WHERE cycle_id=?;";
+
+    const resGet = await db.query(query, [cycleId]);
+    return resGet[0];
+  }
+
   static async updateById(data, commentId) {
     const query =
       "UPDATE track_cycle_periods_db.cervix_data SET cycle_id=?, cervix_position=?, mucus_type=? WHERE id=?;";

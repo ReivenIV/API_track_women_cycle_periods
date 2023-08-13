@@ -33,6 +33,14 @@ class TermperatureModel {
     return resGet[0];
   }
 
+  static async getByCycleId(cycleId) {
+    const query =
+      "SELECT * FROM track_cycle_periods_db.temperature WHERE cycle_id=?;";
+
+    const resGet = await db.query(query, [cycleId]);
+    return resGet[0];
+  }
+
   static async updateById(data, temperatureId) {
     const query =
       "UPDATE track_cycle_periods_db.temperature SET cycle_id=?, celsius_degrees=? WHERE id=?;";

@@ -30,6 +30,14 @@ class EmotionsModel {
     return resGet[0];
   }
 
+  static async getByCycleId(cycleId) {
+    const query =
+      "SELECT * FROM track_cycle_periods_db.emotions_data WHERE cycle_id=?;";
+
+    const resGet = await db.query(query, [cycleId]);
+    return resGet[0];
+  }
+
   static async updateById(data, commentId) {
     const query =
       "UPDATE track_cycle_periods_db.emotions_data SET cycle_id=?, emotion_id=? WHERE id=?;";

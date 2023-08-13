@@ -9,7 +9,7 @@ module.exports = (app, db) => {
 
   app.post("/api/v1/temperature/add", errorHandler, async (req, res, next) => {
     try {
-      let resPost = await TemperatureModel.addTemperature(req.body);
+      let resPost = await TemperatureModel.add(req.body);
 
       if (resPost.affectedRows === 0) {
         res.status(400).json({

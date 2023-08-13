@@ -3,10 +3,14 @@ POST http://localhost:8080/api/v1/activities/add
 Content-Type: application/json
 
 {
-  "cycle_id":4500000,
+  "cycle_id":29,
   "activity_reference_id":45,
   "duration_min": 852
 }
+
+###
+GET http://localhost:8080/api/v1/activities/all_data
+Content-Type: application/json
 
 ###
 GET http://localhost:8080/api/v1/activities/all_data
