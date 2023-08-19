@@ -9,7 +9,7 @@ module.exports = (app, db) => {
 
   app.post("/api/v1/cycle/add", errorHandler, async (req, res, next) => {
     try {
-      let resPost = await CyclesModel.add();
+      let resPost = await CyclesModel.add(req.body);
 
       if (resPost.affectedRows === 0) {
         res.status(400).json({
@@ -19,6 +19,7 @@ module.exports = (app, db) => {
       }
 
       return res.status(200).json({
+        id: resPost.insertId,
         msg: "information added to DB",
         affected_rows: resPost.affectedRows,
       });
@@ -57,7 +58,7 @@ module.exports = (app, db) => {
         }
 
         let resPut = await CyclesModel.updateCycleById(
-          req.body.date,
+          req.body.created_at,
           req.params.cycle_id
         );
 
