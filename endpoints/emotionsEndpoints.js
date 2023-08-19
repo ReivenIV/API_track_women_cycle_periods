@@ -19,6 +19,7 @@ module.exports = (app, db) => {
       }
 
       return res.status(200).json({
+        id: resPost.insertId,
         msg: "information added to DB",
         affected_rows: resPost.affectedRows,
       });

@@ -10,8 +10,12 @@ module.exports = (_db) => {
 class EmotionsModel {
   static async add(data) {
     const query =
-      "INSERT INTO track_cycle_periods_db.emotions_data (cycle_id, emotion_id, created_at) VALUES (?, ?, CURRENT_TIMESTAMP)";
-    const response = await db.query(query, [data.cycle_id, data.emotion_id]);
+      "INSERT INTO track_cycle_periods_db.emotions_data (cycle_id, emotion_id, created_at) VALUES (?, ?, ?)";
+    const response = await db.query(query, [
+      data.cycle_id,
+      data.emotion_id,
+      data.created_at,
+    ]);
     return response[0];
   }
 
@@ -40,11 +44,12 @@ class EmotionsModel {
 
   static async updateById(data, commentId) {
     const query =
-      "UPDATE track_cycle_periods_db.emotions_data SET cycle_id=?, emotion_id=? WHERE id=?;";
+      "UPDATE track_cycle_periods_db.emotions_data SET cycle_id=?, emotion_id=?, created_at=? WHERE id=?;";
 
     const resPut = await db.query(query, [
       data.cycle_id,
       data.emotion_id,
+      data.created_at,
       commentId,
     ]);
     return resPut[0];

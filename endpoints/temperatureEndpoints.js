@@ -19,6 +19,7 @@ module.exports = (app, db) => {
       }
 
       return res.status(200).json({
+        id: resPost.insertId,
         msg: "information added to DB",
         affected_rows: resPost.affectedRows,
       });
@@ -50,19 +51,19 @@ module.exports = (app, db) => {
     async (req, res, next) => {
       try {
         let resOldData = await TemperatureModel.getById(
-          req.params.temperature_id
+          parseInt(req.params.temperature_id)
         );
 
         if (resOldData.length === 0) {
           return res.status(400).json({
+            received_temperature_id: parseInt(req.params.temperature_id),
             msg: "Data not founded in the Database check your payload and try again.",
-            received_temperature_id: req.params.temperature_id,
           });
         }
 
         let resPut = await TemperatureModel.updateById(
           req.body,
-          req.params.temperature_id
+          parseInt(req.params.temperature_id)
         );
 
         if (resPut.affectedRows === 0) {
@@ -72,7 +73,7 @@ module.exports = (app, db) => {
         }
 
         return res.status(200).json({
-          id: req.params.temperature_id,
+          id: parseInt(req.params.temperature_id),
           msg: "row aupdated",
           affected_rows: resPut.affectedRows,
         });
@@ -93,8 +94,8 @@ module.exports = (app, db) => {
 
         if (resOldData.length === 0) {
           return res.status(400).json({
-            msg: "Data not founded in the Database check your payload and try again.",
             received_temperature_id: parseInt(req.params.temperature_id),
+            msg: "Data not founded in the Database check your payload and try again.",
           });
         }
 
@@ -104,8 +105,8 @@ module.exports = (app, db) => {
 
         if (resDelete.affectedRows === 0) {
           return res.status(400).json({
-            msg: "We had a problem please try again",
             received_temperature_id: parseInt(req.params.temperature_id),
+            msg: "We had a problem please try again",
           });
         }
 

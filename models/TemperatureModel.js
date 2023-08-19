@@ -10,10 +10,11 @@ module.exports = (_db) => {
 class TermperatureModel {
   static async add(data) {
     const query =
-      "INSERT INTO track_cycle_periods_db.temperature (cycle_id, celsius_degrees, created_at) VALUES (?,?, CURRENT_TIMESTAMP)";
+      "INSERT INTO track_cycle_periods_db.temperature (cycle_id, celsius_degrees, created_at) VALUES (?,?,?)";
     const response = await db.query(query, [
       data.cycle_id,
       data.celsius_degrees,
+      data.created_at,
     ]);
     return response[0];
   }
@@ -43,11 +44,12 @@ class TermperatureModel {
 
   static async updateById(data, temperatureId) {
     const query =
-      "UPDATE track_cycle_periods_db.temperature SET cycle_id=?, celsius_degrees=? WHERE id=?;";
+      "UPDATE track_cycle_periods_db.temperature SET cycle_id=?, celsius_degrees=?, created_at=? WHERE id=?;";
 
     const resPut = await db.query(query, [
       data.cycle_id,
       data.celsius_degrees,
+      data.created_at,
       temperatureId,
     ]);
     return resPut[0];

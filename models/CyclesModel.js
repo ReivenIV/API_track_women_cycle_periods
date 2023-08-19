@@ -9,7 +9,8 @@ module.exports = (_db) => {
 
 class CyclesModel {
   static async add(data) {
-    const query = "INSERT INTO track_cycle_periods_db.cycles (created_at) VALUES (?)";
+    const query =
+      "INSERT INTO track_cycle_periods_db.cycles (created_at) VALUES (?)";
     const response = await db.query(query, [data.created_at]);
     return response[0];
   }
