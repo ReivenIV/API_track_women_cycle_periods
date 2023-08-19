@@ -4,10 +4,10 @@
 
 module.exports = (_db) => {
   db = _db;
-  return medicalAppointmentsModel;
+  return MedicalAppointmentsModel;
 };
 
-class medicalAppointmentsModel {
+class MedicalAppointmentsModel {
   static async add(data) {
     const query =
       "INSERT INTO track_cycle_periods_db.medical_appointments (created_at, doctor_type, personal_notes, doctor_notes) VALUES (?, ?, ?, ?)";

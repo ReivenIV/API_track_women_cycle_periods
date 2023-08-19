@@ -1,15 +1,15 @@
 const errorHandler = require("../middlewares/errorHandler.js");
 
 // --------------------
-//    medicalAppointment Endpoints
+//    Notes Endpoints
 // --------------------
 
 module.exports = (app, db) => {
-  const MedicalAppointmentsModel = require("./../models/MedicalAppointmentsModel.js")(db);
+  const SleepModel = require("../models/SleepModel.js")(db);
 
-  app.post("/api/v1/medical_appointments/add", errorHandler, async (req, res, next) => {
+  app.post("/api/v1/sleep/add", errorHandler, async (req, res, next) => {
     try {
-      let resPost = await MedicalAppointmentsModel.add(req.body);
+      let resPost = await SleepModel.add(req.body);
 
       if (resPost.affectedRows === 0) {
         res.status(400).json({
@@ -28,9 +28,9 @@ module.exports = (app, db) => {
     }
   });
 
-  app.get("/api/v1/medical_appointments/all_data", errorHandler, async (req, res, next) => {
+  app.get("/api/v1/sleep/all_data", errorHandler, async (req, res, next) => {
     try {
-      let responseGet = await MedicalAppointmentsModel.getAllData();
+      let responseGet = await SleepModel.getAllData();
 
       if (responseGet[0].length === 0) {
         return res.status(200).json({ msg: "User doesn't have data" });
@@ -42,22 +42,22 @@ module.exports = (app, db) => {
   });
 
   app.put(
-    "/api/v1/medical_appointments/update/:appointment_id",
+    "/api/v1/sleep/update/:note_id",
     errorHandler,
     async (req, res, next) => {
       try {
-        let resOldData = await MedicalAppointmentsModel.getById(parseInt(req.params.appointment_id));
+        let resOldData = await SleepModel.getById(parseInt(req.params.note_id));
 
         if (resOldData.length === 0) {
           return res.status(400).json({
             msg: "Data not founded in the Database check your payload and try again.",
-            received_appointment_id: parseInt(req.params.appointment_id),
+            received_note_id: parseInt(req.params.note_id),
           });
         }
 
-        let resPut = await MedicalAppointmentsModel.updateById(
+        let resPut = await SleepModel.updateById(
           req.body,
-          parseInt(req.params.appointment_id)
+          parseInt(req.params.note_id)
         );
 
         if (resPut.affectedRows === 0) {
@@ -67,7 +67,7 @@ module.exports = (app, db) => {
         }
 
         return res.status(200).json({
-          id: parseInt(req.params.appointment_id),
+          id: parseInt(req.params.note_id),
           msg: "row aupdated",
           affected_rows: resPut.affectedRows,
           received_payload: req.body,
@@ -79,32 +79,32 @@ module.exports = (app, db) => {
   );
 
   app.delete(
-    "/api/v1/medical_appointments/delete/:appointment_id",
+    "/api/v1/sleep/delete/:note_id",
     errorHandler,
     async (req, res, next) => {
       try {
-        let resOldData = await MedicalAppointmentsModel.getById(parseInt(req.params.appointment_id));
+        let resOldData = await SleepModel.getById(parseInt(req.params.note_id));
 
         if (resOldData.length === 0) {
           return res.status(400).json({
             msg: "Data not founded in the Database check your payload and try again.",
-            received_appointment_id: parseInt(req.params.appointment_id),
+            received_note_id: parseInt(req.params.note_id),
           });
         }
 
-        let resDelete = await MedicalAppointmentsModel.deleteById(
-          parseInt(req.params.appointment_id)
+        let resDelete = await SleepModel.deleteById(
+          parseInt(req.params.note_id)
         );
 
         if (resDelete.affectedRows === 0) {
           return res.status(400).json({
             msg: "We had a problem please try again",
-            received_appointment_id: parseInt(req.params.appointment_id),
+            received_note_id: parseInt(req.params.note_id),
           });
         }
 
         return res.status(200).json({
-          id: parseInt(req.params.appointment_id),
+          id: parseInt(req.params.note_id),
           msg: "row deleted",
           affected_rows: resDelete.affectedRows,
         });
