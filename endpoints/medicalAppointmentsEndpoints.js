@@ -5,48 +5,59 @@ const errorHandler = require("../middlewares/errorHandler.js");
 // --------------------
 
 module.exports = (app, db) => {
-  const MedicalAppointmentsModel = require("./../models/MedicalAppointmentsModel.js")(db);
+  const MedicalAppointmentsModel =
+    require("./../models/MedicalAppointmentsModel.js")(db);
 
-  app.post("/api/v1/medical_appointments/add", errorHandler, async (req, res, next) => {
-    try {
-      let resPost = await MedicalAppointmentsModel.add(req.body);
+  app.post(
+    "/api/v1/medical_appointments/add",
+    errorHandler,
+    async (req, res, next) => {
+      try {
+        let resPost = await MedicalAppointmentsModel.add(req.body);
 
-      if (resPost.affectedRows === 0) {
-        res.status(400).json({
-          msg: "user not updated",
+        if (resPost.affectedRows === 0) {
+          res.status(400).json({
+            msg: "user not updated",
+            affected_rows: resPost.affectedRows,
+          });
+        }
+
+        return res.status(200).json({
+          id: resPost.insertId,
+          msg: "information added to DB",
           affected_rows: resPost.affectedRows,
         });
+      } catch (error) {
+        next(error);
       }
-
-      return res.status(200).json({
-        id: resPost.insertId,
-        msg: "information added to DB",
-        affected_rows: resPost.affectedRows,
-      });
-    } catch (error) {
-      next(error);
     }
-  });
+  );
 
-  app.get("/api/v1/medical_appointments/all_data", errorHandler, async (req, res, next) => {
-    try {
-      let responseGet = await MedicalAppointmentsModel.getAllData();
+  app.get(
+    "/api/v1/medical_appointments/all_data",
+    errorHandler,
+    async (req, res, next) => {
+      try {
+        let responseGet = await MedicalAppointmentsModel.getAllData();
 
-      if (responseGet[0].length === 0) {
-        return res.status(200).json({ msg: "User doesn't have data" });
+        if (responseGet[0].length === 0) {
+          return res.status(200).json({ msg: "User doesn't have data" });
+        }
+        return res.status(200).json(responseGet[0]);
+      } catch (error) {
+        next(error);
       }
-      return res.status(200).json(responseGet[0]);
-    } catch (error) {
-      next(error);
     }
-  });
+  );
 
   app.put(
     "/api/v1/medical_appointments/update/:appointment_id",
     errorHandler,
     async (req, res, next) => {
       try {
-        let resOldData = await MedicalAppointmentsModel.getById(parseInt(req.params.appointment_id));
+        let resOldData = await MedicalAppointmentsModel.getById(
+          parseInt(req.params.appointment_id)
+        );
 
         if (resOldData.length === 0) {
           return res.status(400).json({
@@ -83,7 +94,9 @@ module.exports = (app, db) => {
     errorHandler,
     async (req, res, next) => {
       try {
-        let resOldData = await MedicalAppointmentsModel.getById(parseInt(req.params.appointment_id));
+        let resOldData = await MedicalAppointmentsModel.getById(
+          parseInt(req.params.appointment_id)
+        );
 
         if (resOldData.length === 0) {
           return res.status(400).json({

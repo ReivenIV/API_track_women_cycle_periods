@@ -15,7 +15,7 @@ class MedicalAppointmentsModel {
       data.created_at,
       data.doctor_type,
       data.personal_notes,
-      data.doctor_notes
+      data.doctor_notes,
     ]);
     return response[0];
   }
@@ -28,7 +28,8 @@ class MedicalAppointmentsModel {
   }
 
   static async getById(appointmentId) {
-    const query = "SELECT * FROM track_cycle_periods_db.medical_appointments WHERE id=?;";
+    const query =
+      "SELECT * FROM track_cycle_periods_db.medical_appointments WHERE id=?;";
 
     const resGet = await db.query(query, [appointmentId]);
     return resGet[0];
@@ -49,7 +50,8 @@ class MedicalAppointmentsModel {
   }
 
   static async deleteById(appointmentId) {
-    const query = "DELETE FROM track_cycle_periods_db.medical_appointments WHERE id=?;";
+    const query =
+      "DELETE FROM track_cycle_periods_db.medical_appointments WHERE id=?;";
 
     const resDelete = await db.query(query, [appointmentId]);
     return resDelete[0];

@@ -33,8 +33,6 @@ const statisticsEndpoints = require("./endpoints/statisticsEndpoints.js");
 const medicalAppointmentsEndpoints = require("./endpoints/medicalAppointmentsEndpoints.js");
 const sleepEndpoints = require("./endpoints/sleepEndpoints.js");
 
-
-
 (async () => {
   try {
     const db = await createPool({
@@ -58,7 +56,6 @@ const sleepEndpoints = require("./endpoints/sleepEndpoints.js");
     statisticsEndpoints(app, db);
     medicalAppointmentsEndpoints(app, db);
     sleepEndpoints(app, db);
-
 
     app.listen(PORT, () => {
       console.log(`Listening on PORT: ${PORT}`);
