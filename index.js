@@ -21,7 +21,6 @@ app.use(express.static(__dirname + "/public"));
 const PORT = process.env.PORT;
 
 // Import endpoints
-
 const cyclesEndpoints = require("./endpoints/cyclesEndpoints.js");
 const temperatureEndpoints = require("./endpoints/temperatureEndpoints.js");
 const notesEndpoints = require("./endpoints/notesEndpoints.js");
