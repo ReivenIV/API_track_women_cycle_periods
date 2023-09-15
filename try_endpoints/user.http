@@ -1,0 +1,57 @@
+// ------------------------
+//     User endpoints
+// ------------------------
+
+###
+POST http://localhost:8080/api/v1/user/register
+Content-Type: application/json
+
+{
+    "username":"Jordan",
+    "password":"123",
+    "role":"client",
+    "email":"Jordan@endpoint.com",
+    "birth_date":"23-12-1990"
+}
+
+###
+POST http://localhost:8080/api/v1/user/login
+Content-Type: application/json
+
+{
+    "username":"Jordan",
+    "password":"123",
+    "role":"client",
+    "email":"Jordan@endpoint.com",
+    "timezone": "Europe/Paris"
+}
+
+###
+PUT http://localhost:8080/api/v1/user/update
+Content-Type: application/json
+x-access-token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjExLCJpYXQiOjE2ODUzNjQ1MDl9.LeKK6BGbBO5n9Df8mv0OSeBSLU4oTMplwyrTm455wRg
+
+{
+    "username":"Marco",
+    "role":"Admin",
+    "email":"marco@endpoint.com",
+    "timezone": "Europe/Paris"
+}
+
+
+###
+PUT http://localhost:8080/api/v1/user/update_password
+Content-Type: application/json
+x-access-token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjExLCJpYXQiOjE2ODUzNjQ2NTh9.JLYKzXAmSd9jtYS8-I-m2tLY_cFSoRCFdJUrth742dQ
+
+{
+    "new_password":"password_for_Jordan"
+
+}
+
+
+###
+// you will get all data related to user by id (user_id is in the token after register / login)
+GET http://localhost:8080/api/v1/user/data
+Content-Type: application/json
+x-access-token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjExLCJpYXQiOjE2ODUzNjQ2MjJ9.T7Xrw_Fy9KOI-V7iqEgXg2l0vo4ArkXAD-_vB5klUUk
