@@ -1,4 +1,6 @@
 const errorHandler = require("../middlewares/errorHandler.js");
+const authenticateToken = require("../middlewares/authenticateToken.js");
+
 
 // ------------------------
 //    statistics Endpoints
@@ -9,11 +11,11 @@ module.exports = (app, db) => {
 
   app.get(
     "/api/v1/statistics/all_data_by_cicle/:cycle_id",
-    errorHandler,
+    errorHandler, authenticateToken,
     async (req, res, next) => {
       try {
         let resGetAllData = await StatisticsModel.getDataByCycleId(
-          parseInt(req.params.cycle_id)
+          parseInt(req.params.cycle_id), req.userId
         );
 
         return res.status(200).json({

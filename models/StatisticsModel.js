@@ -19,22 +19,22 @@ class StatisticsModel {
     this.temperatureModel = TemperatureModel(db);
   }
 
-  async getDataByCycleId(cycle_id) {
+  async getDataByCycleId(cycle_id, userId) {
     const [resActivities, resNotes, resCervix, resEmotions, resTemperature] =
       await Promise.all([
-        this.activitiesModel.getByCycleId(cycle_id),
-        this.notesModel.getByCycleId(cycle_id),
-        this.cervixModel.getByCycleId(cycle_id),
-        this.emotionsModel.getByCycleId(cycle_id),
-        this.temperatureModel.getByCycleId(cycle_id),
+        this.activitiesModel.getByCycleId(cycle_id, userId),
+        this.notesModel.getByCycleId(cycle_id, userId),
+        this.cervixModel.getByCycleId(cycle_id, userId),
+        this.emotionsModel.getByCycleId(cycle_id, userId),
+        this.temperatureModel.getByCycleId(cycle_id, userId),
       ]);
 
     let all_data = {
-      activities: resActivities,
-      notes: resNotes,
-      cervix: resCervix,
-      emotions: resEmotions,
-      temperature: resTemperature,
+      activities_data: resActivities,
+      notes_data: resNotes,
+      cervix_data: resCervix,
+      emotions_data: resEmotions,
+      temperature_data: resTemperature,
     };
     return all_data;
   }
