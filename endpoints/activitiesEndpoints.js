@@ -1,5 +1,5 @@
 const errorHandler = require("../middlewares/errorHandler.js");
-
+const authenticateToken = require("../middlewares/authenticateToken.js")
 // --------------------
 //    Notes Endpoints
 // --------------------
@@ -7,8 +7,9 @@ const errorHandler = require("../middlewares/errorHandler.js");
 module.exports = (app, db) => {
   const ActivitiesModel = require("./../models/ActivitiesModel.js")(db);
 
-  app.post("/api/v1/activities/add", errorHandler, async (req, res, next) => {
+  app.post("/api/v1/activities/add", errorHandler, authenticateToken, async (req, res, next) => {
     try {
+      console.log(req.user.id)
       let resPost = await ActivitiesModel.add(req.body);
 
       if (resPost.affectedRows === 0) {
@@ -30,7 +31,7 @@ module.exports = (app, db) => {
 
   app.get(
     "/api/v1/activities/all_data",
-    errorHandler,
+    errorHandler, authenticateToken,
     async (req, res, next) => {
       try {
         let responseGet = await ActivitiesModel.getAllData();
@@ -47,7 +48,7 @@ module.exports = (app, db) => {
 
   app.put(
     "/api/v1/activities/update/:emotions_id",
-    errorHandler,
+    errorHandler, authenticateToken,
     async (req, res, next) => {
       try {
         let resOldData = await ActivitiesModel.getById(
@@ -85,7 +86,7 @@ module.exports = (app, db) => {
 
   app.delete(
     "/api/v1/activities/delete/:emotions_id",
-    errorHandler,
+    errorHandler, authenticateToken,
     async (req, res, next) => {
       try {
         let resOldData = await ActivitiesModel.getById(

@@ -8,10 +8,11 @@ module.exports = (_db) => {
 };
 
 class ActivitiesModel {
-  static async add(data) {
+  static async add(data, userId) {
     const query =
-      "INSERT INTO track_cycle_periods_db.activities_data (cycle_id, created_at, activity_reference_id, duration_min) VALUES (?, ?, ?,?);";
+      "INSERT INTO track_cycle_periods_db.activities_data (user_id,cycle_id, created_at, activity_reference_id, duration_min) VALUES (?,?,?,?,?);";
     const response = await db.query(query, [
+      userId,
       data.cycle_id,
       data.created_at,
       data.activity_reference_id,
@@ -20,32 +21,32 @@ class ActivitiesModel {
     return response[0];
   }
 
-  static async getAllData() {
-    const query = "SELECT * FROM track_cycle_periods_db.activities_data;";
+  static async getAllData(userId) {
+    const query = "SELECT * FROM track_cycle_periods_db.activities_data WHERE user_id=?";
 
-    const response = await db.query(query, []);
+    const response = await db.query(query, [userId]);
     return response;
   }
 
-  static async getById(commentId) {
+  static async getById(userId, activityId) {
     const query =
-      "SELECT * FROM track_cycle_periods_db.activities_data WHERE id=?;";
+      "SELECT * FROM track_cycle_periods_db.activities_data WHERE user_id=? AND id=?;";
 
-    const resGet = await db.query(query, [commentId]);
+    const resGet = await db.query(query, [userId, activityId]);
     return resGet[0];
   }
 
-  static async getByCycleId(cycleId) {
+  static async getByCycleId(cycleId, userId) {
     const query =
-      "SELECT * FROM track_cycle_periods_db.activities_data WHERE cycle_id=?;";
+      "SELECT * FROM track_cycle_periods_db.activities_data WHERE cycle_id=? AND user_id=?;";
 
-    const resGet = await db.query(query, [cycleId]);
+    const resGet = await db.query(query, [cycleId, userId]);
     return resGet[0];
   }
 
-  static async updateById(data, commentId) {
+  static async updateById(data, commentId, userId) {
     const query =
-      "UPDATE track_cycle_periods_db.activities_data SET cycle_id=?, activity_reference_id=?, created_at=?, duration_min=? WHERE id=?;";
+      "UPDATE track_cycle_periods_db.activities_data SET cycle_id=?, activity_reference_id=?, created_at=?, duration_min=? WHERE id=? AND user_id=?;";
 
     const resPut = await db.query(query, [
       data.cycle_id,
@@ -53,15 +54,16 @@ class ActivitiesModel {
       data.created_at,
       data.duration_min,
       commentId,
+      userId
     ]);
     return resPut[0];
   }
 
-  static async deleteById(commentId) {
+  static async deleteById(commentId, userId) {
     const query =
-      "DELETE FROM track_cycle_periods_db.activities_data WHERE id=?;";
+      "DELETE FROM track_cycle_periods_db.activities_data WHERE id=? AND user_id=?;";
 
-    const resDelete = await db.query(query, [commentId]);
+    const resDelete = await db.query(query, [commentId,userId]);
     return resDelete[0];
   }
 }

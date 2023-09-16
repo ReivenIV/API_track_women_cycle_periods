@@ -1,27 +1,28 @@
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
-const secret = process.env.JWT_SECRET;
+const JWT_SECRET = process.env.JWT_SECRET;
 
 // ----------------------------------------
-//   authenticateToken middleware global
+//   authenticateToken middleware 
 // ----------------------------------------
 
 const authenticateToken = (req, res, next) => {
   const authHeader = req.headers['x-access-token'];
-  const token = authHeader && authHeader.split(' ')[1];
-
-  if (token === undefined) {
-    res.status(404).json({ msg: 'error, token not found' });
-  } else {
-    jwt.verify(token, secret, (err, decoded) => {
-      if (err) {
-        res.status(401).json({ msg: 'error token not valid' });
-      } else {
-        req.id = decoded.userId;
-        next();
-      }
-    });
+  
+  if (!authHeader) {
+    return next(new Error('Token not found'));
   }
+  
+  const token = authHeader.split(' ')[1];
+  
+  jwt.verify(token, JWT_SECRET, (err, decoded) => {
+    if (err) {
+      return next(new Error('Token not valid'));
+    }
+    
+    req.userId = decoded.userId;
+    next();
+  });
 };
 
 module.exports = authenticateToken;
