@@ -4,61 +4,63 @@
 
 module.exports = (_db) => {
   db = _db;
-  return TermperatureModel;
+  return TemperatureModel;
 };
 
-class TermperatureModel {
-  static async add(data) {
+class TemperatureModel {
+  static async add(data, userId) {
     const query =
-      "INSERT INTO track_cycle_periods_db.temperature (cycle_id, celsius_degrees, created_at) VALUES (?,?,?)";
+      "INSERT INTO track_cycle_periods_db.temperature (cycle_id, celsius_degrees, created_at, user_id) VALUES (?,?,?,?)";
     const response = await db.query(query, [
       data.cycle_id,
       data.celsius_degrees,
-      data.created_at,
+      data.created_at, 
+      userId
+
     ]);
     return response[0];
   }
 
-  static async getAllData() {
-    const query = "SELECT * FROM track_cycle_periods_db.temperature;";
+  static async getAllData(userId) {
+    const query = "SELECT * FROM track_cycle_periods_db.temperature WHERE user_id=?;";
 
-    const response = await db.query(query, []);
+    const response = await db.query(query, [userId]);
     return response;
   }
 
-  static async getById(temperatureId) {
+  static async getById(temperatureId, userId) {
     const query =
-      "SELECT * FROM track_cycle_periods_db.temperature WHERE id=?;";
+      "SELECT * FROM track_cycle_periods_db.temperature WHERE id=? AND user_id=?;";
 
-    const resGet = await db.query(query, [temperatureId]);
+    const resGet = await db.query(query, [temperatureId, userId]);
     return resGet[0];
   }
 
-  static async getByCycleId(cycleId) {
+  static async getByCycleId(cycleId, userId) {
     const query =
-      "SELECT * FROM track_cycle_periods_db.temperature WHERE cycle_id=?;";
+      "SELECT * FROM track_cycle_periods_db.temperature WHERE cycle_id=? AND user_id=?;";
 
-    const resGet = await db.query(query, [cycleId]);
+    const resGet = await db.query(query, [cycleId, userId]);
     return resGet[0];
   }
 
-  static async updateById(data, temperatureId) {
+  static async updateById(data, temperatureId, userId) {
     const query =
-      "UPDATE track_cycle_periods_db.temperature SET cycle_id=?, celsius_degrees=?, created_at=? WHERE id=?;";
+      "UPDATE track_cycle_periods_db.temperature SET cycle_id=?, celsius_degrees=?, created_at=? WHERE id=? AND user_id=?;";
 
     const resPut = await db.query(query, [
       data.cycle_id,
       data.celsius_degrees,
       data.created_at,
-      temperatureId,
+      temperatureId, userId
     ]);
     return resPut[0];
   }
 
-  static async deleteById(temperatureId) {
-    const query = "DELETE FROM track_cycle_periods_db.temperature WHERE id=?;";
+  static async deleteById(temperatureId, userId) {
+    const query = "DELETE FROM track_cycle_periods_db.temperature WHERE id=? AND user_id=?;";
 
-    const resDelete = await db.query(query, [temperatureId]);
+    const resDelete = await db.query(query, [temperatureId, userId]);
     return resDelete[0];
   }
 }

@@ -1,4 +1,5 @@
 const errorHandler = require("../middlewares/errorHandler.js");
+const authenticateToken = require("../middlewares/authenticateToken.js");
 
 // ---------------------------
 //    Temperature Endpoints
@@ -7,9 +8,9 @@ const errorHandler = require("../middlewares/errorHandler.js");
 module.exports = (app, db) => {
   const TemperatureModel = require("./../models/TemperatureModel.js")(db);
 
-  app.post("/api/v1/temperature/add", errorHandler, async (req, res, next) => {
+  app.post("/api/v1/temperature/add", errorHandler, authenticateToken, async (req, res, next) => {
     try {
-      let resPost = await TemperatureModel.add(req.body);
+      let resPost = await TemperatureModel.add(req.body, req.userId);
 
       if (resPost.affectedRows === 0) {
         res.status(400).json({
@@ -30,10 +31,10 @@ module.exports = (app, db) => {
 
   app.get(
     "/api/v1/temperature/all_data",
-    errorHandler,
+    errorHandler, authenticateToken,
     async (req, res, next) => {
       try {
-        let responseGet = await TemperatureModel.getAllData();
+        let responseGet = await TemperatureModel.getAllData(req.userId);
 
         if (responseGet[0].length === 0) {
           return res.status(200).json({ msg: "User doesn't have data" });
@@ -47,11 +48,11 @@ module.exports = (app, db) => {
 
   app.put(
     "/api/v1/temperature/update/:temperature_id",
-    errorHandler,
+    errorHandler, authenticateToken,
     async (req, res, next) => {
       try {
         let resOldData = await TemperatureModel.getById(
-          parseInt(req.params.temperature_id)
+          parseInt(req.params.temperature_id), req.userId
         );
 
         if (resOldData.length === 0) {
@@ -63,7 +64,7 @@ module.exports = (app, db) => {
 
         let resPut = await TemperatureModel.updateById(
           req.body,
-          parseInt(req.params.temperature_id)
+          parseInt(req.params.temperature_id), req.userId
         );
 
         if (resPut.affectedRows === 0) {
@@ -85,11 +86,11 @@ module.exports = (app, db) => {
 
   app.delete(
     "/api/v1/temperature/delete/:temperature_id",
-    errorHandler,
+    errorHandler, authenticateToken,
     async (req, res, next) => {
       try {
         let resOldData = await TemperatureModel.getById(
-          parseInt(req.params.temperature_id)
+          parseInt(req.params.temperature_id), req.userId
         );
 
         if (resOldData.length === 0) {
@@ -100,7 +101,7 @@ module.exports = (app, db) => {
         }
 
         let resDelete = await TemperatureModel.deleteById(
-          parseInt(req.params.temperature_id)
+          parseInt(req.params.temperature_id), req.userId
         );
 
         if (resDelete.affectedRows === 0) {
