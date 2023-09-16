@@ -1,6 +1,6 @@
-require('dotenv').config();
-const authenticateToken = require('../middlewares/authenticateToken.js');
-const errorHandler = require('../middlewares/errorHandler.js');
+require("dotenv").config();
+const authenticateToken = require("../middlewares/authenticateToken.js");
+const errorHandler = require("../middlewares/errorHandler.js");
 //const validator = require('../../middlewares/validator.js');
 
 // --------------------
@@ -8,10 +8,10 @@ const errorHandler = require('../middlewares/errorHandler.js');
 // --------------------
 
 module.exports = (app, db) => {
-  const UserModel = require('./../models/UserModel')(db);
+  const UserModel = require("./../models/UserModel")(db);
 
   app.post(
-    '/api/v1/user/register',
+    "/api/v1/user/register",
     errorHandler,
     //validator.validatorRegister,
     async (req, res, next) => {
@@ -21,35 +21,35 @@ module.exports = (app, db) => {
         if (checkAllUsers.length > 0) {
           return res
             .status(401)
-            .json({ msg: 'email or username already stored in DB' });
+            .json({ msg: "email or username already stored in DB" });
         }
         const resgiterResponse = await UserModel.registerUser(req.body);
         let token = await UserModel.authenticateUser(req.body);
 
         return res.status(200).json({
           user_id: resgiterResponse[0].insertId,
-          msg: 'User aded to database',
+          msg: "User aded to database",
           token: token,
         });
       } catch (error) {
         next(error);
       }
-    },
+    }
   );
 
-  app.post('/api/v1/user/login', errorHandler, async (req, res, next) => {
+  app.post("/api/v1/user/login", errorHandler, async (req, res, next) => {
     try {
       let userData = await UserModel.getByEmailOrUsername(req.body);
 
       if (userData[0].length === 0) {
-        return res.status(401).json({ msg: 'invalid credentials' });
+        return res.status(401).json({ msg: "invalid credentials" });
       }
       let resultTest = await UserModel.testCredentials(
         req.body.password,
-        userData[0].password,
+        userData[0].password
       );
       if (resultTest === false) {
-        return res.status(401).json({ msg: 'invalid credentials' });
+        return res.status(401).json({ msg: "invalid credentials" });
       }
 
       let token = await UserModel.authenticateUser(req.body);
@@ -62,7 +62,7 @@ module.exports = (app, db) => {
 
   // will SELECT all data by user id.
   app.get(
-    '/api/v1/user/data',
+    "/api/v1/user/data",
     authenticateToken,
     errorHandler,
     async (req, res, next) => {
@@ -71,7 +71,7 @@ module.exports = (app, db) => {
         if (resUserData.length === 0) {
           return res
             .status(401)
-            .json({ msg: 'user not found in DB / credentials not valid' });
+            .json({ msg: "user not found in DB / credentials not valid" });
         }
 
         return res.status(200).json({
@@ -80,17 +80,16 @@ module.exports = (app, db) => {
           username: resUserData[0].username,
           email: resUserData[0].email,
           created_at: resUserData[0].created_at,
-          updated_at: resUserData[0].updated_at
+          updated_at: resUserData[0].updated_at,
         });
-
       } catch (error) {
         next(error);
       }
-    },
+    }
   );
 
   app.put(
-    '/api/v1/user/update',
+    "/api/v1/user/update",
     authenticateToken,
     errorHandler,
     async (req, res, next) => {
@@ -99,23 +98,23 @@ module.exports = (app, db) => {
 
         if (updatedData[0].affectedRows === 0) {
           res.status(400).json({
-            msg: 'user not updated',
+            msg: "user not updated",
             affectedRows: updatedData[0].affectedRows,
           });
         }
 
         res.status(200).json({
-          msg: 'user updated',
+          msg: "user updated",
           affectedRows: updatedData[0].affectedRows,
         });
       } catch (error) {
         next(error);
       }
-    },
+    }
   );
 
   app.put(
-    '/api/v1/user/update_password',
+    "/api/v1/user/update_password",
     authenticateToken,
     errorHandler,
     async (req, res, next) => {
@@ -124,29 +123,29 @@ module.exports = (app, db) => {
 
         if (responseGet.length === 0) {
           res.status(400).json({
-            msg: 'user not not found in DB',
+            msg: "user not not found in DB",
           });
         }
 
         let result = await UserModel.updatePassword(
           req.body.new_password,
-          req.id,
+          req.id
         );
 
         if (result[0].affectedRows === 0) {
           res.status(400).json({
-            msg: 'user not updated',
+            msg: "user not updated",
             affectedRows: result[0].affectedRows,
           });
         }
 
         res.status(200).json({
-          msg: 'password updated',
+          msg: "password updated",
           affectedRows: result[0].affectedRows,
         });
       } catch (error) {
         next(error);
       }
-    },
+    }
   );
 };

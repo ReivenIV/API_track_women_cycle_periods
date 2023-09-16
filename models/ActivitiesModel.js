@@ -22,7 +22,8 @@ class ActivitiesModel {
   }
 
   static async getAllData(userId) {
-    const query = "SELECT * FROM track_cycle_periods_db.activities_data WHERE user_id=?";
+    const query =
+      "SELECT * FROM track_cycle_periods_db.activities_data WHERE user_id=?";
 
     const response = await db.query(query, [userId]);
     return response;
@@ -54,7 +55,7 @@ class ActivitiesModel {
       data.created_at,
       data.duration_min,
       activityId,
-      userId
+      userId,
     ]);
     return resPut[0];
   }
@@ -63,7 +64,7 @@ class ActivitiesModel {
     const query =
       "DELETE FROM track_cycle_periods_db.activities_data WHERE id=? AND user_id=?;";
 
-    const resDelete = await db.query(query, [activityId,userId]);
+    const resDelete = await db.query(query, [activityId, userId]);
     return resDelete[0];
   }
 }

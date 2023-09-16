@@ -1,5 +1,6 @@
 const errorHandler = require("../middlewares/errorHandler.js");
-const authenticateToken = require("../middlewares/authenticateToken.js")
+const authenticateToken = require("../middlewares/authenticateToken.js");
+
 // --------------------
 //    Notes Endpoints
 // --------------------
@@ -7,30 +8,36 @@ const authenticateToken = require("../middlewares/authenticateToken.js")
 module.exports = (app, db) => {
   const ActivitiesModel = require("./../models/ActivitiesModel.js")(db);
 
-  app.post("/api/v1/activities/add", errorHandler, authenticateToken, async (req, res, next) => {
-    try {
-      let resPost = await ActivitiesModel.add(req.body, req.userId);
+  app.post(
+    "/api/v1/activities/add",
+    errorHandler,
+    authenticateToken,
+    async (req, res, next) => {
+      try {
+        let resPost = await ActivitiesModel.add(req.body, req.userId);
 
-      if (resPost.affectedRows === 0) {
-        res.status(400).json({
-          msg: "user not updated",
+        if (resPost.affectedRows === 0) {
+          res.status(400).json({
+            msg: "user not updated",
+            affected_rows: resPost.affectedRows,
+          });
+        }
+
+        return res.status(200).json({
+          id: resPost.insertId,
+          msg: "information added to DB",
           affected_rows: resPost.affectedRows,
         });
+      } catch (error) {
+        next(error);
       }
-
-      return res.status(200).json({
-        id: resPost.insertId,
-        msg: "information added to DB",
-        affected_rows: resPost.affectedRows,
-      });
-    } catch (error) {
-      next(error);
     }
-  });
+  );
 
   app.get(
     "/api/v1/activities/all_data",
-    errorHandler, authenticateToken,
+    errorHandler,
+    authenticateToken,
     async (req, res, next) => {
       try {
         let responseGet = await ActivitiesModel.getAllData(req.userId);
@@ -47,11 +54,13 @@ module.exports = (app, db) => {
 
   app.put(
     "/api/v1/activities/update/:activity_id",
-    errorHandler, authenticateToken,
+    errorHandler,
+    authenticateToken,
     async (req, res, next) => {
       try {
         let resOldData = await ActivitiesModel.getById(
-          req.userId, parseInt(req.params.activity_id)
+          req.userId,
+          parseInt(req.params.activity_id)
         );
 
         if (resOldData.length === 0) {
@@ -68,9 +77,10 @@ module.exports = (app, db) => {
         );
 
         if (resPut.affectedRows === 0) {
-          return res
-            .status(400)
-            .json({ msg: "We had a problem please try again", affected_rows: resPut.affectedRows  });
+          return res.status(400).json({
+            msg: "We had a problem please try again",
+            affected_rows: resPut.affectedRows,
+          });
         }
 
         return res.status(200).json({
@@ -86,7 +96,8 @@ module.exports = (app, db) => {
 
   app.delete(
     "/api/v1/activities/delete/:activity_id",
-    errorHandler, authenticateToken,
+    errorHandler,
+    authenticateToken,
     async (req, res, next) => {
       try {
         let resOldData = await ActivitiesModel.getById(
