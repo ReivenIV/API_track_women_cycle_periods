@@ -1,4 +1,5 @@
 const errorHandler = require("../middlewares/errorHandler.js");
+const authenticateToken = require("../middlewares/authenticateToken.js");
 
 // --------------------
 //    Notes Endpoints
@@ -7,46 +8,60 @@ const errorHandler = require("../middlewares/errorHandler.js");
 module.exports = (app, db) => {
   const NotesModel = require("./../models/NotesModel.js")(db);
 
-  app.post("/api/v1/notes/add", errorHandler, async (req, res, next) => {
-    try {
-      let resPost = await NotesModel.add(req.body);
+  app.post(
+    "/api/v1/notes/add",
+    errorHandler,
+    authenticateToken,
+    async (req, res, next) => {
+      try {
+        let resPost = await NotesModel.add(req.body, req.userId);
 
-      if (resPost.affectedRows === 0) {
-        res.status(400).json({
-          msg: "user not updated",
+        if (resPost.affectedRows === 0) {
+          res.status(400).json({
+            msg: "user not updated",
+            affected_rows: resPost.affectedRows,
+          });
+        }
+
+        return res.status(200).json({
+          id: resPost.insertId,
+          msg: "information added to DB",
           affected_rows: resPost.affectedRows,
         });
+      } catch (error) {
+        next(error);
       }
-
-      return res.status(200).json({
-        id: resPost.insertId,
-        msg: "information added to DB",
-        affected_rows: resPost.affectedRows,
-      });
-    } catch (error) {
-      next(error);
     }
-  });
+  );
 
-  app.get("/api/v1/notes/all_data", errorHandler, async (req, res, next) => {
-    try {
-      let responseGet = await NotesModel.getAllData();
+  app.get(
+    "/api/v1/notes/all_data",
+    errorHandler,
+    authenticateToken,
+    async (req, res, next) => {
+      try {
+        let responseGet = await NotesModel.getAllData(req.userId);
 
-      if (responseGet[0].length === 0) {
-        return res.status(200).json({ msg: "User doesn't have data" });
+        if (responseGet[0].length === 0) {
+          return res.status(200).json({ msg: "User doesn't have data" });
+        }
+        return res.status(200).json(responseGet[0]);
+      } catch (error) {
+        next(error);
       }
-      return res.status(200).json(responseGet[0]);
-    } catch (error) {
-      next(error);
     }
-  });
+  );
 
   app.put(
     "/api/v1/notes/update/:note_id",
     errorHandler,
+    authenticateToken,
     async (req, res, next) => {
       try {
-        let resOldData = await NotesModel.getById(parseInt(req.params.note_id));
+        let resOldData = await NotesModel.getById(
+          parseInt(req.params.note_id),
+          req.userId
+        );
 
         if (resOldData.length === 0) {
           return res.status(400).json({
@@ -57,7 +72,8 @@ module.exports = (app, db) => {
 
         let resPut = await NotesModel.updateById(
           req.body,
-          parseInt(req.params.note_id)
+          parseInt(req.params.note_id),
+          req.userId
         );
 
         if (resPut.affectedRows === 0) {
@@ -81,9 +97,13 @@ module.exports = (app, db) => {
   app.delete(
     "/api/v1/notes/delete/:note_id",
     errorHandler,
+    authenticateToken,
     async (req, res, next) => {
       try {
-        let resOldData = await NotesModel.getById(parseInt(req.params.note_id));
+        let resOldData = await NotesModel.getById(
+          parseInt(req.params.note_id),
+          req.userId
+        );
 
         if (resOldData.length === 0) {
           return res.status(400).json({
@@ -93,7 +113,8 @@ module.exports = (app, db) => {
         }
 
         let resDelete = await NotesModel.deleteById(
-          parseInt(req.params.note_id)
+          parseInt(req.params.note_id),
+          req.userId
         );
 
         if (resDelete.affectedRows === 0) {
