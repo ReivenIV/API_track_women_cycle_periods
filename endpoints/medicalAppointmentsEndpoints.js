@@ -1,4 +1,5 @@
 const errorHandler = require("../middlewares/errorHandler.js");
+const authenticateToken = require("../middlewares/authenticateToken.js");
 
 // --------------------
 //    medicalAppointment Endpoints
@@ -11,9 +12,10 @@ module.exports = (app, db) => {
   app.post(
     "/api/v1/medical_appointments/add",
     errorHandler,
+    authenticateToken,
     async (req, res, next) => {
       try {
-        let resPost = await MedicalAppointmentsModel.add(req.body);
+        let resPost = await MedicalAppointmentsModel.add(req.body, req.userId);
 
         if (resPost.affectedRows === 0) {
           res.status(400).json({
@@ -36,9 +38,10 @@ module.exports = (app, db) => {
   app.get(
     "/api/v1/medical_appointments/all_data",
     errorHandler,
+    authenticateToken,
     async (req, res, next) => {
       try {
-        let responseGet = await MedicalAppointmentsModel.getAllData();
+        let responseGet = await MedicalAppointmentsModel.getAllData(req.userId);
 
         if (responseGet[0].length === 0) {
           return res.status(200).json({ msg: "User doesn't have data" });
@@ -53,10 +56,12 @@ module.exports = (app, db) => {
   app.put(
     "/api/v1/medical_appointments/update/:appointment_id",
     errorHandler,
+    authenticateToken,
     async (req, res, next) => {
       try {
         let resOldData = await MedicalAppointmentsModel.getById(
-          parseInt(req.params.appointment_id)
+          parseInt(req.params.appointment_id),
+          req.userId
         );
 
         if (resOldData.length === 0) {
@@ -68,7 +73,8 @@ module.exports = (app, db) => {
 
         let resPut = await MedicalAppointmentsModel.updateById(
           req.body,
-          parseInt(req.params.appointment_id)
+          parseInt(req.params.appointment_id),
+          req.userId
         );
 
         if (resPut.affectedRows === 0) {
@@ -92,10 +98,12 @@ module.exports = (app, db) => {
   app.delete(
     "/api/v1/medical_appointments/delete/:appointment_id",
     errorHandler,
+    authenticateToken,
     async (req, res, next) => {
       try {
         let resOldData = await MedicalAppointmentsModel.getById(
-          parseInt(req.params.appointment_id)
+          parseInt(req.params.appointment_id),
+          req.userId
         );
 
         if (resOldData.length === 0) {
@@ -106,7 +114,8 @@ module.exports = (app, db) => {
         }
 
         let resDelete = await MedicalAppointmentsModel.deleteById(
-          parseInt(req.params.appointment_id)
+          parseInt(req.params.appointment_id),
+          req.userId
         );
 
         if (resDelete.affectedRows === 0) {
