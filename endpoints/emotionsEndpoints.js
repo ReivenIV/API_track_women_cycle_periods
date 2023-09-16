@@ -1,4 +1,5 @@
 const errorHandler = require("../middlewares/errorHandler.js");
+const authenticateToken = require("../middlewares/authenticateToken.js");
 
 // --------------------
 //    Notes Endpoints
@@ -7,47 +8,59 @@ const errorHandler = require("../middlewares/errorHandler.js");
 module.exports = (app, db) => {
   const EmotionsModel = require("./../models/EmotionsModel.js")(db);
 
-  app.post("/api/v1/emotions/add", errorHandler, async (req, res, next) => {
-    try {
-      let resPost = await EmotionsModel.add(req.body);
+  app.post(
+    "/api/v1/emotions/add",
+    errorHandler,
+    authenticateToken,
+    async (req, res, next) => {
+      try {
+        let resPost = await EmotionsModel.add(req.body, req.userId);
 
-      if (resPost.affectedRows === 0) {
-        res.status(400).json({
-          msg: "user not updated",
+        if (resPost.affectedRows === 0) {
+          res.status(400).json({
+            msg: "user not updated",
+            affected_rows: resPost.affectedRows,
+          });
+        }
+
+        return res.status(200).json({
+          id: resPost.insertId,
+          msg: "information added to DB",
           affected_rows: resPost.affectedRows,
         });
+      } catch (error) {
+        next(error);
       }
-
-      return res.status(200).json({
-        id: resPost.insertId,
-        msg: "information added to DB",
-        affected_rows: resPost.affectedRows,
-      });
-    } catch (error) {
-      next(error);
     }
-  });
+  );
 
-  app.get("/api/v1/emotions/all_data", errorHandler, async (req, res, next) => {
-    try {
-      let responseGet = await EmotionsModel.getAllData();
+  app.get(
+    "/api/v1/emotions/all_data",
+    errorHandler,
+    authenticateToken,
+    async (req, res, next) => {
+      try {
+        let responseGet = await EmotionsModel.getAllData(req.userId);
 
-      if (responseGet[0].length === 0) {
-        return res.status(200).json({ msg: "User doesn't have data" });
+        if (responseGet[0].length === 0) {
+          return res.status(200).json({ msg: "User doesn't have data" });
+        }
+        return res.status(200).json(responseGet[0]);
+      } catch (error) {
+        next(error);
       }
-      return res.status(200).json(responseGet[0]);
-    } catch (error) {
-      next(error);
     }
-  });
+  );
 
   app.put(
     "/api/v1/emotions/update/:emotions_id",
     errorHandler,
+    authenticateToken,
     async (req, res, next) => {
       try {
         let resOldData = await EmotionsModel.getById(
-          parseInt(req.params.emotions_id)
+          parseInt(req.params.emotions_id),
+          req.userId
         );
 
         if (resOldData.length === 0) {
@@ -59,7 +72,8 @@ module.exports = (app, db) => {
 
         let resPut = await EmotionsModel.updateById(
           req.body,
-          parseInt(req.params.emotions_id)
+          parseInt(req.params.emotions_id),
+          req.userId
         );
 
         if (resPut.affectedRows === 0) {
@@ -82,10 +96,12 @@ module.exports = (app, db) => {
   app.delete(
     "/api/v1/emotions/delete/:emotions_id",
     errorHandler,
+    authenticateToken,
     async (req, res, next) => {
       try {
         let resOldData = await EmotionsModel.getById(
-          parseInt(req.params.emotions_id)
+          parseInt(req.params.emotions_id),
+          req.userId
         );
 
         if (resOldData.length === 0) {
@@ -96,7 +112,8 @@ module.exports = (app, db) => {
         }
 
         let resDelete = await EmotionsModel.deleteById(
-          parseInt(req.params.emotions_id)
+          parseInt(req.params.emotions_id),
+          req.userId
         );
 
         if (resDelete.affectedRows === 0) {

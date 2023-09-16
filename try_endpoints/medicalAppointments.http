@@ -1,6 +1,7 @@
 ###
 POST http://localhost:8080/api/v1/medical_appointments/add
 Content-Type: application/json
+x-access-token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTY5NDg2MjQ5NH0.LfQNtL5U864juuROt9A5YsLT-dKpj3O-ZUVxdOv6dS8
 
 {
 "created_at": "2023-05-30 09:00:00",
@@ -12,11 +13,13 @@ Content-Type: application/json
 ###
 GET http://localhost:8080/api/v1/medical_appointments/all_data
 Content-Type: application/json
+x-access-token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTY5NDg2MjQ5NH0.LfQNtL5U864juuROt9A5YsLT-dKpj3O-ZUVxdOv6dS8
 
 
 ###
 PUT http://localhost:8080/api/v1/medical_appointments/update/2
 Content-Type: application/json
+x-access-token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTY5NDg2MjQ5NH0.LfQNtL5U864juuROt9A5YsLT-dKpj3O-ZUVxdOv6dS8
 
 {
 "created_at": "2023-05-30 09:00:00",
@@ -28,3 +31,4 @@ Content-Type: application/json
 ###
 DELETE http://localhost:8080/api/v1/medical_appointments/delete/2
 Content-Type: application/json
+x-access-token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTY5NDg2MjQ5NH0.LfQNtL5U864juuROt9A5YsLT-dKpj3O-ZUVxdOv6dS8

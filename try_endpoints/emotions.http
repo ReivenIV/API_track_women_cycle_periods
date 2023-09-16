@@ -1,6 +1,7 @@
 ###
 POST http://localhost:8080/api/v1/emotions/add
 Content-Type: application/json
+x-access-token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTY5NDg2MjQ5NH0.LfQNtL5U864juuROt9A5YsLT-dKpj3O-ZUVxdOv6dS8
 
 {
   "cycle_id":29,
@@ -11,11 +12,13 @@ Content-Type: application/json
 ###
 GET http://localhost:8080/api/v1/emotions/all_data
 Content-Type: application/json
+x-access-token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTY5NDg2MjQ5NH0.LfQNtL5U864juuROt9A5YsLT-dKpj3O-ZUVxdOv6dS8
 
 
 ###
-PUT http://localhost:8080/api/v1/emotions/update/11
+PUT http://localhost:8080/api/v1/emotions/update/16
 Content-Type: application/json
+x-access-token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTY5NDg2MjQ5NH0.LfQNtL5U864juuROt9A5YsLT-dKpj3O-ZUVxdOv6dS8
 
 {
   "cycle_id":4500000,
@@ -24,5 +27,6 @@ Content-Type: application/json
 }
 
 ###
-DELETE http://localhost:8080/api/v1/emotions/delete/1
+DELETE http://localhost:8080/api/v1/emotions/delete/16
 Content-Type: application/json
+x-access-token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTY5NDg2MjQ5NH0.LfQNtL5U864juuROt9A5YsLT-dKpj3O-ZUVxdOv6dS8

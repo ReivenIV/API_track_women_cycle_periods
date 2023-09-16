@@ -8,58 +8,61 @@ module.exports = (_db) => {
 };
 
 class EmotionsModel {
-  static async add(data) {
+  static async add(data, userId) {
     const query =
-      "INSERT INTO track_cycle_periods_db.emotions_data (cycle_id, emotion_id, created_at) VALUES (?, ?, ?)";
+      "INSERT INTO track_cycle_periods_db.emotions_data (cycle_id, emotion_id, created_at, user_id) VALUES (?, ?, ?,?)";
     const response = await db.query(query, [
       data.cycle_id,
       data.emotion_id,
       data.created_at,
+      userId,
     ]);
     return response[0];
   }
 
-  static async getAllData() {
-    const query = "SELECT * FROM track_cycle_periods_db.emotions_data;";
+  static async getAllData(userId) {
+    const query =
+      "SELECT * FROM track_cycle_periods_db.emotions_data WHERE user_id=?;";
 
-    const response = await db.query(query, []);
+    const response = await db.query(query, [userId]);
     return response;
   }
 
-  static async getById(commentId) {
+  static async getById(emotionId, userId) {
     const query =
-      "SELECT * FROM track_cycle_periods_db.emotions_data WHERE id=?;";
+      "SELECT * FROM track_cycle_periods_db.emotions_data WHERE id=? AND user_id=?;";
 
-    const resGet = await db.query(query, [commentId]);
+    const resGet = await db.query(query, [emotionId, userId]);
     return resGet[0];
   }
 
-  static async getByCycleId(cycleId) {
+  static async getByCycleId(cycleId, userId) {
     const query =
-      "SELECT * FROM track_cycle_periods_db.emotions_data WHERE cycle_id=?;";
+      "SELECT * FROM track_cycle_periods_db.emotions_data WHERE cycle_id=? AND user_id=?;";
 
-    const resGet = await db.query(query, [cycleId]);
+    const resGet = await db.query(query, [cycleId, userId]);
     return resGet[0];
   }
 
-  static async updateById(data, commentId) {
+  static async updateById(data, emotionId, userId) {
     const query =
-      "UPDATE track_cycle_periods_db.emotions_data SET cycle_id=?, emotion_id=?, created_at=? WHERE id=?;";
+      "UPDATE track_cycle_periods_db.emotions_data SET cycle_id=?, emotion_id=?, created_at=? WHERE id=? AND user_id=?;";
 
     const resPut = await db.query(query, [
       data.cycle_id,
       data.emotion_id,
       data.created_at,
-      commentId,
+      emotionId,
+      userId,
     ]);
     return resPut[0];
   }
 
-  static async deleteById(commentId) {
+  static async deleteById(emotionId, userId) {
     const query =
-      "DELETE FROM track_cycle_periods_db.emotions_data WHERE id=?;";
+      "DELETE FROM track_cycle_periods_db.emotions_data WHERE id=? AND user_id=?;";
 
-    const resDelete = await db.query(query, [commentId]);
+    const resDelete = await db.query(query, [emotionId, userId]);
     return resDelete[0];
   }
 }
