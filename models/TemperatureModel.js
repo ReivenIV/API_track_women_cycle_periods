@@ -14,15 +14,15 @@ class TemperatureModel {
     const response = await db.query(query, [
       data.cycle_id,
       data.celsius_degrees,
-      data.created_at, 
-      userId
-
+      data.created_at,
+      userId,
     ]);
     return response[0];
   }
 
   static async getAllData(userId) {
-    const query = "SELECT * FROM track_cycle_periods_db.temperature WHERE user_id=?;";
+    const query =
+      "SELECT * FROM track_cycle_periods_db.temperature WHERE user_id=?;";
 
     const response = await db.query(query, [userId]);
     return response;
@@ -52,13 +52,15 @@ class TemperatureModel {
       data.cycle_id,
       data.celsius_degrees,
       data.created_at,
-      temperatureId, userId
+      temperatureId,
+      userId,
     ]);
     return resPut[0];
   }
 
   static async deleteById(temperatureId, userId) {
-    const query = "DELETE FROM track_cycle_periods_db.temperature WHERE id=? AND user_id=?;";
+    const query =
+      "DELETE FROM track_cycle_periods_db.temperature WHERE id=? AND user_id=?;";
 
     const resDelete = await db.query(query, [temperatureId, userId]);
     return resDelete[0];

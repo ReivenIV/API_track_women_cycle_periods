@@ -32,6 +32,7 @@ const statisticsEndpoints = require("./endpoints/statisticsEndpoints.js");
 const medicalAppointmentsEndpoints = require("./endpoints/medicalAppointmentsEndpoints.js");
 const sleepEndpoints = require("./endpoints/sleepEndpoints.js");
 const userEndpoints = require("./endpoints/userEndpoints.js");
+const weightEndpoints = require("./endpoints/weightEndpoints.js");
 
 (async () => {
   try {
@@ -57,6 +58,7 @@ const userEndpoints = require("./endpoints/userEndpoints.js");
     medicalAppointmentsEndpoints(app, db);
     sleepEndpoints(app, db);
     userEndpoints(app, db);
+    weightEndpoints(app, db);
 
     app.listen(PORT, () => {
       console.log(`Listening on PORT: ${PORT}`);

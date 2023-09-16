@@ -6,15 +6,15 @@ const authenticateToken = require("../middlewares/authenticateToken.js");
 // ---------------------------
 
 module.exports = (app, db) => {
-  const TemperatureModel = require("./../models/TemperatureModel.js")(db);
+  const WeightModel = require("./../models/WeightModel.js")(db);
 
   app.post(
-    "/api/v1/temperature/add",
+    "/api/v1/weight/add",
     errorHandler,
     authenticateToken,
     async (req, res, next) => {
       try {
-        let resPost = await TemperatureModel.add(req.body, req.userId);
+        let resPost = await WeightModel.add(req.body, req.userId);
 
         if (resPost.affectedRows === 0) {
           res.status(400).json({
@@ -35,12 +35,12 @@ module.exports = (app, db) => {
   );
 
   app.get(
-    "/api/v1/temperature/all_data",
+    "/api/v1/weight/all_data",
     errorHandler,
     authenticateToken,
     async (req, res, next) => {
       try {
-        let responseGet = await TemperatureModel.getAllData(req.userId);
+        let responseGet = await WeightModel.getAllData(req.userId);
 
         if (responseGet[0].length === 0) {
           return res.status(200).json({ msg: "User doesn't have data" });
@@ -53,26 +53,26 @@ module.exports = (app, db) => {
   );
 
   app.put(
-    "/api/v1/temperature/update/:temperature_id",
+    "/api/v1/weight/update/:weight_id",
     errorHandler,
     authenticateToken,
     async (req, res, next) => {
       try {
-        let resOldData = await TemperatureModel.getById(
-          parseInt(req.params.temperature_id),
+        let resOldData = await WeightModel.getById(
+          parseInt(req.params.weight_id),
           req.userId
         );
 
         if (resOldData.length === 0) {
           return res.status(400).json({
-            received_temperature_id: parseInt(req.params.temperature_id),
+            received_weight_id: parseInt(req.params.weight_id),
             msg: "Data not founded in the Database check your payload and try again.",
           });
         }
 
-        let resPut = await TemperatureModel.updateById(
+        let resPut = await WeightModel.updateById(
           req.body,
-          parseInt(req.params.temperature_id),
+          parseInt(req.params.weight_id),
           req.userId
         );
 
@@ -83,7 +83,7 @@ module.exports = (app, db) => {
         }
 
         return res.status(200).json({
-          id: parseInt(req.params.temperature_id),
+          id: parseInt(req.params.weight_id),
           msg: "row aupdated",
           affected_rows: resPut.affectedRows,
         });
@@ -94,37 +94,37 @@ module.exports = (app, db) => {
   );
 
   app.delete(
-    "/api/v1/temperature/delete/:temperature_id",
+    "/api/v1/weight/delete/:weight_id",
     errorHandler,
     authenticateToken,
     async (req, res, next) => {
       try {
-        let resOldData = await TemperatureModel.getById(
-          parseInt(req.params.temperature_id),
+        let resOldData = await WeightModel.getById(
+          parseInt(req.params.weight_id),
           req.userId
         );
 
         if (resOldData.length === 0) {
           return res.status(400).json({
-            received_temperature_id: parseInt(req.params.temperature_id),
+            received_weight_id: parseInt(req.params.weight_id),
             msg: "Data not founded in the Database check your payload and try again.",
           });
         }
 
-        let resDelete = await TemperatureModel.deleteById(
-          parseInt(req.params.temperature_id),
+        let resDelete = await WeightModel.deleteById(
+          parseInt(req.params.weight_id),
           req.userId
         );
 
         if (resDelete.affectedRows === 0) {
           return res.status(400).json({
-            received_temperature_id: parseInt(req.params.temperature_id),
+            received_weight_id: parseInt(req.params.weight_id),
             msg: "We had a problem please try again",
           });
         }
 
         return res.status(200).json({
-          id: parseInt(req.params.temperature_id),
+          id: parseInt(req.params.weight_id),
           msg: "row deleted",
           affected_rows: resDelete.affectedRows,
         });

@@ -16,7 +16,7 @@ class SleepModel {
       data.created_at,
       data.sleep_quality,
       data.duration_min,
-      userId
+      userId,
     ]);
     return response[0];
   }
@@ -29,7 +29,8 @@ class SleepModel {
   }
 
   static async getById(sleepId, userId) {
-    const query = "SELECT * FROM track_cycle_periods_db.sleep WHERE id=? AND user_id=?;";
+    const query =
+      "SELECT * FROM track_cycle_periods_db.sleep WHERE id=? AND user_id=?;";
 
     const resGet = await db.query(query, [sleepId, userId]);
     return resGet[0];
@@ -53,13 +54,14 @@ class SleepModel {
       data.sleep_quality,
       data.duration_min,
       sleepId,
-      userId
+      userId,
     ]);
     return resPut[0];
   }
 
   static async deleteById(sleepId, userId) {
-    const query = "DELETE FROM track_cycle_periods_db.sleep WHERE id=? AND user_id=?;";
+    const query =
+      "DELETE FROM track_cycle_periods_db.sleep WHERE id=? AND user_id=?;";
 
     const resDelete = await db.query(query, [sleepId, userId]);
     return resDelete[0];

@@ -10,11 +10,13 @@ module.exports = (app, db) => {
 
   app.get(
     "/api/v1/statistics/all_data_by_cicle/:cycle_id",
-    errorHandler, authenticateToken,
+    errorHandler,
+    authenticateToken,
     async (req, res, next) => {
       try {
         let resGetAllData = await StatisticsModel.getDataByCycleId(
-          parseInt(req.params.cycle_id), req.userId
+          parseInt(req.params.cycle_id),
+          req.userId
         );
 
         return res.status(200).json({

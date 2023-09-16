@@ -8,46 +8,60 @@ const authenticateToken = require("../middlewares/authenticateToken.js");
 module.exports = (app, db) => {
   const SleepModel = require("../models/SleepModel.js")(db);
 
-  app.post("/api/v1/sleep/add", errorHandler, authenticateToken, async (req, res, next) => {
-    try {
-      let resPost = await SleepModel.add(req.body, req.userId);
+  app.post(
+    "/api/v1/sleep/add",
+    errorHandler,
+    authenticateToken,
+    async (req, res, next) => {
+      try {
+        let resPost = await SleepModel.add(req.body, req.userId);
 
-      if (resPost.affectedRows === 0) {
-        res.status(400).json({
-          msg: "user not updated",
+        if (resPost.affectedRows === 0) {
+          res.status(400).json({
+            msg: "user not updated",
+            affected_rows: resPost.affectedRows,
+          });
+        }
+
+        return res.status(200).json({
+          id: resPost.insertId,
+          msg: "information added to DB",
           affected_rows: resPost.affectedRows,
         });
+      } catch (error) {
+        next(error);
       }
-
-      return res.status(200).json({
-        id: resPost.insertId,
-        msg: "information added to DB",
-        affected_rows: resPost.affectedRows,
-      });
-    } catch (error) {
-      next(error);
     }
-  });
+  );
 
-  app.get("/api/v1/sleep/all_data", errorHandler, authenticateToken, async (req, res, next) => {
-    try {
-      let responseGet = await SleepModel.getAllData(req.userId);
+  app.get(
+    "/api/v1/sleep/all_data",
+    errorHandler,
+    authenticateToken,
+    async (req, res, next) => {
+      try {
+        let responseGet = await SleepModel.getAllData(req.userId);
 
-      if (responseGet[0].length === 0) {
-        return res.status(200).json({ msg: "User doesn't have data" });
+        if (responseGet[0].length === 0) {
+          return res.status(200).json({ msg: "User doesn't have data" });
+        }
+        return res.status(200).json(responseGet[0]);
+      } catch (error) {
+        next(error);
       }
-      return res.status(200).json(responseGet[0]);
-    } catch (error) {
-      next(error);
     }
-  });
+  );
 
   app.put(
     "/api/v1/sleep/update/:sleep_id",
-    errorHandler, authenticateToken,
+    errorHandler,
+    authenticateToken,
     async (req, res, next) => {
       try {
-        let resOldData = await SleepModel.getById(parseInt(req.params.sleep_id), req.userId);
+        let resOldData = await SleepModel.getById(
+          parseInt(req.params.sleep_id),
+          req.userId
+        );
 
         if (resOldData.length === 0) {
           return res.status(400).json({
@@ -58,7 +72,8 @@ module.exports = (app, db) => {
 
         let resPut = await SleepModel.updateById(
           req.body,
-          parseInt(req.params.sleep_id), req.userId
+          parseInt(req.params.sleep_id),
+          req.userId
         );
 
         if (resPut.affectedRows === 0) {
@@ -81,10 +96,14 @@ module.exports = (app, db) => {
 
   app.delete(
     "/api/v1/sleep/delete/:sleep_id",
-    errorHandler, authenticateToken,
+    errorHandler,
+    authenticateToken,
     async (req, res, next) => {
       try {
-        let resOldData = await SleepModel.getById(parseInt(req.params.sleep_id), req.userId);
+        let resOldData = await SleepModel.getById(
+          parseInt(req.params.sleep_id),
+          req.userId
+        );
 
         if (resOldData.length === 0) {
           return res.status(400).json({
@@ -94,7 +113,8 @@ module.exports = (app, db) => {
         }
 
         let resDelete = await SleepModel.deleteById(
-          parseInt(req.params.sleep_id), req.userId
+          parseInt(req.params.sleep_id),
+          req.userId
         );
 
         if (resDelete.affectedRows === 0) {
