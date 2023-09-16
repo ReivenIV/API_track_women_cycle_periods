@@ -16,7 +16,6 @@ module.exports = (app, db) => {
     //validator.validatorRegister,
     async (req, res, next) => {
       try {
-        console.log(req.body)
         let checkAllUsers = await UserModel.getByEmailOrUsername(req.body);
 
         if (checkAllUsers.length > 0) {
@@ -68,22 +67,22 @@ module.exports = (app, db) => {
     errorHandler,
     async (req, res, next) => {
       try {
-        let userData = await UserModel.getByUserId(req.id);
-        if (userData.length === 0) {
+        let resUserData = await UserModel.getByUserId(req.id);
+        if (resUserData.length === 0) {
           return res
             .status(401)
             .json({ msg: 'user not found in DB / credentials not valid' });
         }
 
         return res.status(200).json({
-          user_id: userData[0].id,
-          username: userData[0].username,
-          email: userData[0].email,
-          created_at: userData[0].created_at,
-          updated_at: userData[0].updated_at,
-          timezone: userData[0].timezone,
-          role: userData[0].role,
+          user_id: resUserData[0].id,
+          timezone: resUserData[0].birth_date,
+          username: resUserData[0].username,
+          email: resUserData[0].email,
+          created_at: resUserData[0].created_at,
+          updated_at: resUserData[0].updated_at
         });
+
       } catch (error) {
         next(error);
       }
