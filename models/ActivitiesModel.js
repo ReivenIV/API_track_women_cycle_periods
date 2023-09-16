@@ -44,7 +44,7 @@ class ActivitiesModel {
     return resGet[0];
   }
 
-  static async updateById(data, commentId, userId) {
+  static async updateById(data, activityId, userId) {
     const query =
       "UPDATE track_cycle_periods_db.activities_data SET cycle_id=?, activity_reference_id=?, created_at=?, duration_min=? WHERE id=? AND user_id=?;";
 
@@ -53,17 +53,17 @@ class ActivitiesModel {
       data.activity_reference_id,
       data.created_at,
       data.duration_min,
-      commentId,
+      activityId,
       userId
     ]);
     return resPut[0];
   }
 
-  static async deleteById(commentId, userId) {
+  static async deleteById(activityId, userId) {
     const query =
       "DELETE FROM track_cycle_periods_db.activities_data WHERE id=? AND user_id=?;";
 
-    const resDelete = await db.query(query, [commentId,userId]);
+    const resDelete = await db.query(query, [activityId,userId]);
     return resDelete[0];
   }
 }

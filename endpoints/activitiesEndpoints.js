@@ -9,8 +9,7 @@ module.exports = (app, db) => {
 
   app.post("/api/v1/activities/add", errorHandler, authenticateToken, async (req, res, next) => {
     try {
-      console.log(req.user.id)
-      let resPost = await ActivitiesModel.add(req.body);
+      let resPost = await ActivitiesModel.add(req.body, req.userId);
 
       if (resPost.affectedRows === 0) {
         res.status(400).json({
@@ -34,7 +33,7 @@ module.exports = (app, db) => {
     errorHandler, authenticateToken,
     async (req, res, next) => {
       try {
-        let responseGet = await ActivitiesModel.getAllData();
+        let responseGet = await ActivitiesModel.getAllData(req.userId);
 
         if (responseGet[0].length === 0) {
           return res.status(200).json({ msg: "User doesn't have data" });
@@ -47,34 +46,35 @@ module.exports = (app, db) => {
   );
 
   app.put(
-    "/api/v1/activities/update/:emotions_id",
+    "/api/v1/activities/update/:activity_id",
     errorHandler, authenticateToken,
     async (req, res, next) => {
       try {
         let resOldData = await ActivitiesModel.getById(
-          parseInt(req.params.emotions_id)
+          req.userId, parseInt(req.params.activity_id)
         );
 
         if (resOldData.length === 0) {
           return res.status(400).json({
             msg: "Data not founded in the Database check your payload and try again.",
-            received_emotions_id: parseInt(req.params.emotions_id),
+            received_activity_id: parseInt(req.params.activity_id),
           });
         }
 
         let resPut = await ActivitiesModel.updateById(
           req.body,
-          parseInt(req.params.emotions_id)
+          parseInt(req.params.activity_id),
+          req.userId
         );
 
         if (resPut.affectedRows === 0) {
           return res
             .status(400)
-            .json({ msg: "We had a problem please try again" });
+            .json({ msg: "We had a problem please try again", affected_rows: resPut.affectedRows  });
         }
 
         return res.status(200).json({
-          id: parseInt(req.params.emotions_id),
+          id: parseInt(req.params.activity_id),
           msg: "row aupdated",
           affected_rows: resPut.affectedRows,
         });
@@ -85,34 +85,36 @@ module.exports = (app, db) => {
   );
 
   app.delete(
-    "/api/v1/activities/delete/:emotions_id",
+    "/api/v1/activities/delete/:activity_id",
     errorHandler, authenticateToken,
     async (req, res, next) => {
       try {
         let resOldData = await ActivitiesModel.getById(
-          parseInt(req.params.emotions_id)
+          req.userId,
+          parseInt(req.params.activity_id)
         );
 
         if (resOldData.length === 0) {
           return res.status(400).json({
             msg: "Data not founded in the Database check your payload and try again.",
-            received_emotions_id: parseInt(req.params.emotions_id),
+            received_activity_id: parseInt(req.params.activity_id),
           });
         }
 
         let resDelete = await ActivitiesModel.deleteById(
-          parseInt(req.params.emotions_id)
+          parseInt(req.params.activity_id),
+          req.userId
         );
 
         if (resDelete.affectedRows === 0) {
           return res.status(400).json({
             msg: "We had a problem please try again",
-            received_emotions_id: parseInt(req.params.emotions_id),
+            received_activity_id: parseInt(req.params.activity_id),
           });
         }
 
         return res.status(200).json({
-          id: parseInt(req.params.emotions_id),
+          id: parseInt(req.params.activity_id),
           msg: "row deleted",
           affected_rows: resDelete.affectedRows,
         });
