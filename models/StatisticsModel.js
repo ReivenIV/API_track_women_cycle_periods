@@ -1,4 +1,8 @@
-// statisticsModel.js
+// ---------------------
+//    Statistics Model
+// ---------------------
+
+
 const ActivitiesModel = require("./ActivitiesModel.js");
 const CervixModel = require("./CervixModel.js");
 const EmotionsModel = require("./EmotionsModel.js");

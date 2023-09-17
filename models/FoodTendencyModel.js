@@ -1,5 +1,5 @@
 // ------------------------
-//    weight Model
+//    Food Tendency Model
 // ------------------------
 
 module.exports = (_db) => {

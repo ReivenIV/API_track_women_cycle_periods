@@ -1,5 +1,5 @@
 // -----------------
-//    Notes Model
+//    Emotions Model
 // -----------------
 
 module.exports = (_db) => {
