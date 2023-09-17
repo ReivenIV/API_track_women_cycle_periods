@@ -8,18 +8,18 @@ module.exports = (app, db) => {
   const ReferencesModel = require("./../models/ReferencesModel.js")(db);
 
   app.get(
-    "/api/v1/activity_reference/all_data",
+    "/api/v1/references/activities",
     errorHandler,
     async (req, res, next) => {
       try {
-        let responseGet = await ReferencesModel.getAllActivitiesReferences();
+        let resGet = await ReferencesModel.getActivitiesReferences();
 
-        if (responseGet[0].length === 0) {
+        if (resGet[0].length === 0) {
           return res
             .status(200)
             .json({ msg: "no data in Database, for the moment" });
         }
-        return res.status(200).json(responseGet[0]);
+        return res.status(200).json(resGet[0]);
       } catch (error) {
         next(error);
       }
@@ -27,18 +27,56 @@ module.exports = (app, db) => {
   );
 
   app.get(
-    "/api/v1/emotions_reference/all_data",
+    "/api/v1/references/emotions",
     errorHandler,
     async (req, res, next) => {
       try {
-        let responseGet = await ReferencesModel.getAllDataEmotionsReferences();
+        let resGet = await ReferencesModel.getEmotionsReferences();
 
-        if (responseGet[0].length === 0) {
+        if (resGet[0].length === 0) {
           return res
             .status(200)
             .json({ msg: "no data in Database, for the moment" });
         }
-        return res.status(200).json(responseGet[0]);
+        return res.status(200).json(resGet[0]);
+      } catch (error) {
+        next(error);
+      }
+    }
+  );
+
+  app.get(
+    "/api/v1/references/food_tendency",
+    errorHandler,
+    async (req, res, next) => {
+      try {
+        let resGet = await ReferencesModel.getFoodTendencyReferences();
+
+        if (resGet[0].length === 0) {
+          return res
+            .status(200)
+            .json({ msg: "no data in Database, for the moment" });
+        }
+        return res.status(200).json(resGet[0]);
+      } catch (error) {
+        next(error);
+      }
+    }
+  );
+
+  app.get(
+    "/api/v1/references/symptoms",
+    errorHandler,
+    async (req, res, next) => {
+      try {
+        let resGet = await ReferencesModel.getSymptomsReferences();
+
+        if (resGet[0].length === 0) {
+          return res
+            .status(200)
+            .json({ msg: "no data in Database, for the moment" });
+        }
+        return res.status(200).json(resGet[0]);
       } catch (error) {
         next(error);
       }

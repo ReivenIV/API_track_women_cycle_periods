@@ -1,9 +1,19 @@
 ###
-GET http://localhost:8080/api/v1/activity_reference/all_data
+GET http://localhost:8080/api/v1/references/activities
 Content-Type: application/json
 x-access-token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTY5NDg2MjQ5NH0.LfQNtL5U864juuROt9A5YsLT-dKpj3O-ZUVxdOv6dS8
 
 ###
-GET http://localhost:8080/api/v1/emotions_reference/all_data
+GET http://localhost:8080/api/v1/references/emotions
+Content-Type: application/json
+x-access-token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTY5NDg2MjQ5NH0.LfQNtL5U864juuROt9A5YsLT-dKpj3O-ZUVxdOv6dS8
+
+###
+GET http://localhost:8080/api/v1/references/food_tendency
+Content-Type: application/json
+x-access-token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTY5NDg2MjQ5NH0.LfQNtL5U864juuROt9A5YsLT-dKpj3O-ZUVxdOv6dS8
+
+###
+GET http://localhost:8080/api/v1/references/symptoms
 Content-Type: application/json
 x-access-token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTY5NDg2MjQ5NH0.LfQNtL5U864juuROt9A5YsLT-dKpj3O-ZUVxdOv6dS8
