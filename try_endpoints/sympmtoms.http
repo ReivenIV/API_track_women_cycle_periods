@@ -1,3 +1,7 @@
+// ------------------------
+//   symptoms endpoints
+// ------------------------
+
 ###
 POST http://localhost:8080/api/v1/symptoms/add
 Content-Type: application/json
