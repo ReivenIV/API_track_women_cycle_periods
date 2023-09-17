@@ -1,9 +1,9 @@
 const errorHandler = require("../middlewares/errorHandler.js");
 const authenticateToken = require("../middlewares/authenticateToken.js");
 
-// --------------------
-//    Notes Endpoints
-// --------------------
+// ------------------------
+//   Activities Endpoints
+// ------------------------
 
 module.exports = (app, db) => {
   const ActivitiesModel = require("./../models/ActivitiesModel.js")(db);

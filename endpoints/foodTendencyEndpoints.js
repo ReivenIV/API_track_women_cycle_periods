@@ -2,7 +2,7 @@ const errorHandler = require("../middlewares/errorHandler.js");
 const authenticateToken = require("../middlewares/authenticateToken.js");
 
 // ---------------------------
-//    Temperature Endpoints
+//    Food Tendency Endpoints
 // ---------------------------
 
 module.exports = (app, db) => {

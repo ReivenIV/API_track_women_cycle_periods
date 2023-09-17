@@ -1,8 +1,8 @@
 const errorHandler = require("../middlewares/errorHandler.js");
 
-// --------------------
-//    Notes Endpoints
-// --------------------
+// -------------------------
+//    References Endpoints
+// -------------------------
 
 module.exports = (app, db) => {
   const ReferencesModel = require("./../models/ReferencesModel.js")(db);

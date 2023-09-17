@@ -1,9 +1,9 @@
 const errorHandler = require("../middlewares/errorHandler.js");
 const authenticateToken = require("../middlewares/authenticateToken.js");
 
-// ---------------------------
-//    Temperature Endpoints
-// ---------------------------
+// ---------------------
+//   Weight Endpoints
+// ---------------------
 
 module.exports = (app, db) => {
   const WeightModel = require("./../models/WeightModel.js")(db);

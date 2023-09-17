@@ -1,9 +1,9 @@
 const errorHandler = require("../middlewares/errorHandler.js");
 const authenticateToken = require("../middlewares/authenticateToken.js");
 
-// --------------------
+// ----------------------------------
 //    medicalAppointment Endpoints
-// --------------------
+// ----------------------------------
 
 module.exports = (app, db) => {
   const MedicalAppointmentsModel =
