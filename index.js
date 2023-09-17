@@ -45,10 +45,6 @@ const symptomsEndpoints = require("./endpoints/symptomsEndpoints.js");
       port: process.env.DB_PORT,
     });
 
-    setInterval(async () => {
-      await db.query("SELECT 1");
-    }, 100000);
-
     cyclesEndpoints(app, db);
     temperatureEndpoints(app, db);
     notesEndpoints(app, db);
