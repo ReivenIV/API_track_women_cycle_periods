@@ -14,12 +14,12 @@ module.exports = (app, db) => {
       try {
         let resGet = await ReferencesModel.getActivitiesReferences();
 
-        if (resGet[0].length === 0) {
+        if (resGet.length === 0) {
           return res
             .status(200)
             .json({ msg: "no data in Database, for the moment" });
         }
-        return res.status(200).json(resGet[0]);
+        return res.status(200).json(resGet);
       } catch (error) {
         next(error);
       }
@@ -33,12 +33,12 @@ module.exports = (app, db) => {
       try {
         let resGet = await ReferencesModel.getEmotionsReferences();
 
-        if (resGet[0].length === 0) {
+        if (resGet.length === 0) {
           return res
             .status(200)
             .json({ msg: "no data in Database, for the moment" });
         }
-        return res.status(200).json(resGet[0]);
+        return res.status(200).json(resGet);
       } catch (error) {
         next(error);
       }
@@ -52,12 +52,12 @@ module.exports = (app, db) => {
       try {
         let resGet = await ReferencesModel.getFoodTendencyReferences();
 
-        if (resGet[0].length === 0) {
+        if (resGet.length === 0) {
           return res
             .status(200)
             .json({ msg: "no data in Database, for the moment" });
         }
-        return res.status(200).json(resGet[0]);
+        return res.status(200).json(resGet);
       } catch (error) {
         next(error);
       }
@@ -71,12 +71,25 @@ module.exports = (app, db) => {
       try {
         let resGet = await ReferencesModel.getSymptomsReferences();
 
-        if (resGet[0].length === 0) {
+        if (resGet.length === 0) {
           return res
             .status(200)
             .json({ msg: "no data in Database, for the moment" });
         }
-        return res.status(200).json(resGet[0]);
+        return res.status(200).json(resGet);
+      } catch (error) {
+        next(error);
+      }
+    }
+  );
+
+    app.get(
+    "/api/v1/references/all",
+    errorHandler,
+    async (req, res, next) => {
+      try {
+        let resGet = await ReferencesModel.getAllReferences();
+        return res.status(200).json(resGet);
       } catch (error) {
         next(error);
       }
